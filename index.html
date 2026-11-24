@@ -113,14 +113,6 @@
 .dashboard #priceTile .compact-spark{height:60px}
 }
 
-/* Show the five newest registered posts per blogger; reveal older posts on demand. */
-.author .blog-extra{margin-top:4px}
-.author .blog-extra>summary{display:flex;align-items:center;justify-content:center;list-style:none;cursor:pointer;border-top:1px solid #edf1ee;color:var(--green);background:var(--soft);padding:9px 8px;border-radius:7px;font-size:11px;font-weight:750;touch-action:manipulation}
-.author .blog-extra>summary::-webkit-details-marker{display:none}
-.author .blog-extra>summary:focus-visible{outline:2px solid var(--green);outline-offset:2px}
-.author .blog-show-less,.author .blog-extra[open] .blog-show-more{display:none}
-.author .blog-extra[open] .blog-show-less{display:inline}
-.author .blog-extra-posts{padding-top:3px}
 </style></head><body><div class="wrap"><header class="hero"><div><div class="kicker">BUKAHYEON REDEVELOPMENT</div><h1>북아현3구역 브리핑</h1><p>뉴스 · 주요 블로거 · 서울 정비사업 · 시세</p></div><div class="num">03</div></header>
 <main class="dashboard" id="dashboard"><div class="stats" aria-label="대시보드 현황"><div class="stat"><label>최근소식</label><strong id="statNews">16건</strong><small>원문 연결</small></div><div class="stat"><label>주요 블로거</label><strong>6곳</strong><small>지정 블로거</small></div><div class="stat"><label>서울 정비사업</label><strong id="statSeoul">6건</strong><small>북아현 제외</small></div><div class="stat stat-price" role="button" tabindex="0" onclick="show('prices')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('prices')}"><label>북아현3구역 평균 P</label><strong id="headlinePrice">11.15억</strong><small id="headlineChange">지난주 대비 자료 없음</small></div></div><div class="tiles"><section class="tile" role="button" tabindex="0" aria-label="최근소식 상세보기" onclick="show('news')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('news')}"><div class="tiletitle">최근소식 <span class="new-slot" id="newsNew"></span><span class="arrow">›</span></div><p class="caption">북아현2·3구역 · 북아현뉴타운 · 서대문 재개발</p><div id="newsTile"></div></section>
 <section class="tile" role="button" tabindex="0" aria-label="주요 블로거 상세보기" onclick="show('blogs')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('blogs')}"><div class="tiletitle">주요 블로거 <span class="new-slot" id="blogsNew"></span><span class="arrow">›</span></div><p class="caption">직접 지정한 블로거 6곳</p><div id="blogTile"></div></section>
@@ -228,10 +220,8 @@ function newsRows(){let q=(document.getElementById('nq')?.value||'').trim().toLo
 function blogDetail(){return `<div class="filter"><input id="blogq" placeholder="블로거 이름·글 제목 검색" oninput="filterBlogs()" aria-label="블로그 검색"></div><div class="author-grid" id="authors">${authorCards(DATA.bloggers)}</div>`}
 function authorCards(items){return items.map(b=>{
   const posts=b.scope==='category'?b.posts.filter(p=>p.categoryNo===38):b.posts;
-  const postRow=p=>`<a class="post" target="_blank" rel="noopener noreferrer" href="${esc(p.url)}">↗ ${badgeIfNew('blogs',p.url)}${esc(p.title)} ${p.date?`<small>(${esc(p.date)})</small>`:''}</a>`;
-  const firstFive=posts.slice(0,5).map(postRow).join('');
-  const hidden=posts.length>5?`<details class="blog-extra"><summary><span class="blog-show-more">이전 글 ${posts.length-5}개 더 보기 <span aria-hidden="true">⌄</span></span><span class="blog-show-less">목록 접기 <span aria-hidden="true">⌃</span></span></summary><div class="blog-extra-posts">${posts.slice(5).map(postRow).join('')}</div></details>`:'';
-  return `<div class="author"><h3>${esc(b.name)} ${posts.some(p=>newIds.blogs.has(p.url))?newMark():''}</h3>${firstFive}${hidden}<div class="bottom">${link(b.url,b.scope==='category'?'재개발 글 전체 보기 ↗':'블로그 모든 글 보기 ↗')}</div></div>`;
+  const preview=posts.slice(0,5).map(p=>`<a class="post" target="_blank" rel="noopener noreferrer" href="${esc(p.url)}">↗ ${badgeIfNew('blogs',p.url)}${esc(p.title)} ${p.date?`<small>(${esc(p.date)})</small>`:''}</a>`).join('');
+  return `<div class="author"><h3>${esc(b.name)} ${posts.slice(0,5).some(p=>newIds.blogs.has(p.url))?newMark():''}</h3>${preview}<div class="bottom">${link(b.url,b.scope==='category'?'재개발 글 전체 보기 ↗':'블로그 모든 글 보기 ↗')}</div></div>`;
 }).join('')}
 function filterBlogs(){let q=document.getElementById('blogq').value.toLowerCase().trim();document.getElementById('authors').innerHTML=authorCards(DATA.bloggers.filter(b=>(b.name+' '+b.id+' '+b.posts.map(p=>p.title).join(' ')).toLowerCase().includes(q)))}
 function seoulDetail(){return `<div class="seoul-search"><input id="sq" type="search" placeholder="기사 제목·언론사 검색" aria-label="서울 정비사업 기사 검색" oninput="filterSeoul()"></div><div class="news-cards" id="seoulList"></div>`}
