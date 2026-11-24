@@ -97,6 +97,21 @@
 .author h3 .new-flag{margin-left:5px}
 .dashboard .minirow .new-flag{margin-right:4px}
 @media(max-width:700px){.tiletitle .new-flag{font-size:9px;padding:1px 4px}.new-flag{font-size:9px}}
+
+/* Only home cards 3 (prices) and 4 (chat) gain about 20% height. */
+.dashboard .tiles{grid-template-rows:minmax(0,1fr) minmax(0,1.2fr)}
+.dashboard .tiles>.tile:nth-child(3),
+.dashboard .tiles>.tile:nth-child(4){height:100%;min-height:0}
+.dashboard #priceTile .compact-trend{min-height:95px;display:flex;flex-direction:column;justify-content:space-between}
+.dashboard #priceTile .compact-trend-empty{flex:1;min-height:54px;display:flex;justify-content:center;align-items:center}
+.dashboard #priceTile .compact-spark{height:64px}
+.dashboard #priceTile .compact-trend-label{line-height:1.3}
+@media(max-width:700px){
+.dashboard .tiles{grid-template-rows:minmax(0,1fr) minmax(0,1.2fr)}
+.dashboard #priceTile .compact-trend{min-height:87px}
+.dashboard #priceTile .compact-trend-empty{min-height:48px}
+.dashboard #priceTile .compact-spark{height:60px}
+}
 </style></head><body><div class="wrap"><header class="hero"><div><div class="kicker">BUKAHYEON REDEVELOPMENT</div><h1>북아현3구역 브리핑</h1><p>뉴스 · 주요 블로거 · 서울 정비사업 · 시세</p></div><div class="num">03</div></header>
 <main class="dashboard" id="dashboard"><div class="stats" aria-label="대시보드 현황"><div class="stat"><label>최근소식</label><strong id="statNews">16건</strong><small>원문 연결</small></div><div class="stat"><label>주요 블로거</label><strong>6곳</strong><small>지정 블로거</small></div><div class="stat"><label>서울 정비사업</label><strong id="statSeoul">6건</strong><small>북아현 제외</small></div><div class="stat stat-price" role="button" tabindex="0" onclick="show('prices')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('prices')}"><label>북아현3구역 평균 P</label><strong id="headlinePrice">11.15억</strong><small id="headlineChange">지난주 대비 자료 없음</small></div></div><div class="tiles"><section class="tile" role="button" tabindex="0" aria-label="최근소식 상세보기" onclick="show('news')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('news')}"><div class="tiletitle">최근소식 <span class="new-slot" id="newsNew"></span><span class="arrow">›</span></div><p class="caption">북아현2·3구역 · 북아현뉴타운 · 서대문 재개발</p><div id="newsTile"></div></section>
 <section class="tile" role="button" tabindex="0" aria-label="주요 블로거 상세보기" onclick="show('blogs')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('blogs')}"><div class="tiletitle">주요 블로거 <span class="new-slot" id="blogsNew"></span><span class="arrow">›</span></div><p class="caption">직접 지정한 블로거 6곳</p><div id="blogTile"></div></section>
