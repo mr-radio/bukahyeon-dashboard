@@ -222,6 +222,15 @@ function filterBlogs(){let q=document.getElementById('blogq').value.toLowerCase(
 function seoulDetail(){return `<div class="seoul-search"><input id="sq" type="search" placeholder="기사 제목·언론사 검색" aria-label="서울 정비사업 기사 검색" oninput="filterSeoul()"></div><div class="news-cards" id="seoulList"></div>`}
 function filterSeoul(){let box=document.getElementById('seoulList');if(!box)return;let q=(document.getElementById('sq').value||'').toLowerCase();let items=DATA.seoul.filter(x=>(x.title+' '+x.source+' '+x.summary).toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));box.innerHTML=items.map(x=>`<article class="news-card"><div class="news-meta"><span class="news-tag">NEWS</span><time>${esc(x.date.replaceAll('-','.'))}</time><span>· ${esc(x.source)}</span></div><a class="news-headline" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${esc(x.title)}</a><p>${esc(x.summary)}</p></article>`).join('')||'<div class="news-empty">검색 조건에 맞는 기사가 없습니다.</div>'}
 
+// 아현뚜방 날짜별 브리핑: 한 날짜를 열면 다른 날짜는 자동으로 접습니다.
+document.getElementById('detailContent').addEventListener('toggle',function(event){
+  const opened=event.target;
+  if(!opened.matches?.('details.chat-brief')||!opened.open)return;
+  this.querySelectorAll('details.chat-brief[open]').forEach(other=>{
+    if(other!==opened)other.open=false;
+  });
+},true);
+
 function chatDetail(){
   if(!CHAT_POSTS.length)return '<section class="panel"><p class="chat-empty">등록된 톡방 요약이 없습니다.</p></section>';
   return CHAT_POSTS.slice().reverse().map((x,i)=>`<details class="panel chat-brief" ${i===0?'open':''}><summary style="cursor:pointer;font-weight:700;line-height:1.6">${badgeIfNew('chat',x.id)}${esc(x.title)}</summary><small>${esc(x.date||'')}</small>${x.summary.split(/\n\n+/).map(block=>{let lines=block.split('\n'),head=lines.shift(),body=lines.join('\n');return '<section style="margin:16px 0;line-height:1.75;'+(/운영진 직접 답변|주요 공지 및 운영진 답변/.test(head)?'border-left:3px solid #527c68;padding:10px;background:rgba(100,140,110,.08);':'')+'"><h4 style="margin:0 0 7px;font-size:1em">'+esc(head)+'</h4><p style="margin:0;white-space:pre-line">'+esc(body)+'</p></section>';}).join('')}</details>`).join('');
