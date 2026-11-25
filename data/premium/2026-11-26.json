@@ -1,0 +1,24 @@
+{
+  "attemptDateKST": "2026-11-26",
+  "scope": "북아현2·3구역 프리미엄 재수집",
+  "status": "failed_preserved",
+  "sources": {
+    "3": {
+      "shortUrl": "https://naver.me/G6RJIqgQ",
+      "redevelopmentAreaNo": 1000085
+    },
+    "2": {
+      "shortUrl": "https://naver.me/5c87plL3",
+      "redevelopmentAreaNo": 1000084
+    }
+  },
+  "observations": [
+    "일반 HTTP 요청은 두 단축주소에서 fin.land.naver.com/map?layer=...의 HTML을 반환했으나 매물 설명은 포함되지 않음",
+    "Playwright에서 단축주소와 정식 상세 경로 모두 네이버페이 오류 페이지로 이동",
+    "매물 목록 및 통계 데이터 요청은 HTTP 403을 반환"
+  ],
+  "preservedBaseDate": "2026-11-25",
+  "newObservationAdded": false,
+  "coverage": "이번 재시도에서 실제 매물 설명 0건 확보. 신규 매물 없음이라는 뜻이 아님.",
+  "paymentMade": false
+}
