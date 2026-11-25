@@ -7,7 +7,7 @@ const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
 const money = value => Number(value).toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + '억';
 const newestFirst = items => items.slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 const bloggerPosts = blogger => newestFirst(blogger.scope === 'category'
-  ? blogger.posts.filter(post => post.categoryNo === 38) : blogger.posts);
+  ? blogger.posts.filter(post => post.categoryNo === blogger.feedCategoryNo) : blogger.posts);
 const link = (url, label = '원문 보기') => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`;
 const linkedText = text => text.split(/(https?:\/\/[^\s<>]+)/g)
   .map(part => /^https?:\/\//.test(part) ? link(part, part) : esc(part)).join('');
@@ -170,7 +170,7 @@ function newsRows(){let q=(document.getElementById('nq')?.value||'').trim().toLo
 function newsDetail(){return `<div class="news-filter" role="group" aria-label="소식 유형">${['전체','뉴스','블로그','카페','서울 정비사업'].map(t=>`<button type="button" class="news-chip ${t===newsMode?'selected':''}" data-news-mode="${t}" aria-pressed="${t===newsMode}">${t}</button>`).join('')}</div><div class="seoul-search"><input id="nq" type="search" placeholder="북아현3구역 · 조합 · 이주 등 검색" aria-label="최근소식 검색"></div><div class="news-cards" id="newsItems">${newsRows()}</div>`}
 
 function authorCards(items){return items.map(b=>{
-  const posts=b.scope==='category'?b.posts.filter(p=>p.categoryNo===38):b.posts;
+  const posts=b.scope==='category'?b.posts.filter(p=>p.categoryNo===b.feedCategoryNo):b.posts;
   const preview=posts.slice(0,5).map(p=>`<a class="post" target="_blank" rel="noopener noreferrer" href="${esc(p.url)}">↗ ${badgeIfNew('blogs',p.url)}${esc(p.title)} ${p.date?`<small>(${esc(p.date)})</small>`:''}</a>`).join('');
   return `<div class="author"><h3>${esc(b.name)} ${posts.slice(0,5).some(p=>newIds.blogs.has(p.url))?newMark():''}</h3>${preview}<div class="bottom">${link(b.url,b.scope==='category'?'재개발 글 전체 보기 ↗':'블로그 모든 글 보기 ↗')}</div></div>`;
 }).join('')}
