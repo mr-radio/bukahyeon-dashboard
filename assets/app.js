@@ -174,7 +174,7 @@ const routes = {
   seoul: ['서울 정비사업', newsDetail, 'seoul'],
   blogs: ['주요 블로거', blogDetail, 'blogs'],
   prices: ['시세와 주변 실거래', priceDetail],
-  chat: ['아현뚜방 톡방 요약', chatDetail, 'chat']
+  chat: ['아현뚜방 브리핑', chatDetail, 'chat']
 };
 function renderRoute() {
   const page = location.hash.slice(1);
