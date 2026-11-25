@@ -247,3 +247,6 @@ body.view-home .wrap {height: 100svh; min-height: 0;}
 .detail a { color:inherit; text-decoration:none; }
 .detail a:hover { text-decoration:underline; }
 .detail .news-card:hover { text-decoration:none; }
+
+/* A compact daily-chart explanatory note below the detailed price graph. */
+.detail .daily-chart-note{margin:7px 0 0;font-size:11px;line-height:1.45;color:var(--muted);overflow-wrap:anywhere}
