@@ -24,25 +24,37 @@
   "tasks": {
     "news": {
       "scanStatus": "partial",
-      "writeStatus": "committed",
+      "writeStatus": "ready",
       "cursor": {
         "covered": [
-          "이전 실행 네이버 검색"
+          {
+            "query": "북아현",
+            "sort": "latest",
+            "page": 1,
+            "from": "2026-10-12",
+            "through": "2026-11-25"
+          }
         ],
-        "pending": "지침 검색어·정렬·페이지별 완료 여부 확인"
+        "pending": "関連 검색어/관련도순·추가 페이지"
       },
-      "nextAction": "현재 등록 URL·게시글 ID를 제외하고 미확인 검색어 하나·한 페이지부터",
+      "nextAction": "다음 검색어 또는 관련도순 결과와 기존 기사를 대조",
       "counts": {
-        "added": 1,
-        "reviewed": null
+        "added": 2,
+        "reviewed": 1
       },
       "attempts": [],
       "evidence": [
         "data/updates/2026-11-26.json"
       ],
-      "reason": "자료 저장은 확인되지만 전체 검색어/페이지 완료 기록은 없음",
-      "updatedAt": "2026-11-25T22:58:37.407Z",
-      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+      "reason": "첫 신규 기사 원문 검수 완료. 추가 검색어와 페이지 조사 계속",
+      "updatedAt": "2026-11-25T23:14:42.444Z",
+      "pendingBatch": {
+        "id": "news-20261126-munhwa",
+        "urls": [
+          "https://n.news.naver.com/mnews/article/021/0002833906"
+        ],
+        "dataIncluded": true
+      }
     },
     "blogNews": {
       "scanStatus": "partial",
@@ -334,8 +346,8 @@
       "updatedAt": "2026-11-25T22:58:37.407Z"
     }
   },
-  "updatedAt": "2026-11-25T22:58:37.407Z",
-  "scope": "resume_pending_scope",
+  "updatedAt": "2026-11-25T23:14:42.444Z",
+  "scope": "recent_news_resume",
   "baseline": {
     "indexBlobSha": "6bd79234b543195259e95d2b3236c401360c7776",
     "newsCount": 26,
@@ -350,7 +362,20 @@
     ],
     "note": "Initialized from repository records. Pending tasks require coverage review, not repeating registered content."
   },
-  "successfulRoutes": {},
+  "successfulRoutes": {
+    "naver.news": {
+      "tool": "execution HTTP (urllib)",
+      "publicUrl": "https://search.naver.com/search.naver?where=news&query=북아현&sort=1",
+      "checkedAt": "2026-11-25T23:14:42.444Z",
+      "fields": [
+        "title",
+        "url",
+        "article body",
+        "data-date-time"
+      ],
+      "pagination": "start=1,11,21…"
+    }
+  },
   "migrationNotes": [
     "최근 성공한 시세 갱신 커밋은 확인했지만 사용 도구·경로는 커밋에 없어 임의 복원하지 않음.",
     "기존 콘텐츠는 재등록하지 않고 원문 검수와 검색 범위만 이어감."
