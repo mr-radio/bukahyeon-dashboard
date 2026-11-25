@@ -113,10 +113,10 @@ function homeTiles() {
     const posts = bloggerPosts(blogger);
     return `<div class="minirow blog-row"><div class="desc"><span class="row-title" title="${esc(blogger.name)}">${posts.some(post => newIds.blogs.has(post.url)) ? newMark() : ''}${esc(shortNames[blogger.id] || blogger.name)}</span></div><span class="pill">${posts.length}건</span></div>`;
   }).join('');
-  $('chatTile').innerHTML = newestFirst(CHAT_POSTS).slice(0, 4).map(post =>
+  $('chatTile').innerHTML = newestFirst(CHAT_POSTS).slice(0, 3).map(post =>
     `<div class="minirow"><div class="desc"><small>${esc(post.date.slice(5).replace('-', '.'))} 브리핑</small><span class="row-title">${badgeIfNew('chat', post.id)}${esc(post.title.replace(/^.*?·\s*/, ''))}</span></div></div>`).join('') || '<p class="empty">등록된 요약 없음</p>';
   $('priceTile').innerHTML = `<div class="pricegrid">${['3', '2'].map(zone =>
-    `<div class="pricebox ${zone === '3' ? 'primary' : ''}"><small>${zone}구역 평균 P</small><strong>${money(latestPremium(zone).value)}</strong>${changeHtml(zone)}</div>`).join('')}</div>
+    `<div class="pricebox ${zone === '3' ? 'primary' : ''}"><small>${zone}구역</small><strong>${money(latestPremium(zone).value)}</strong>${weeklyComparison(zone) ? changeHtml(zone) : '<span class="delta">전주 비교 자료 없음</span>'}</div>`).join('')}</div>
     <div class="compact-trend"><span class="compact-trend-label">3구역 프리미엄 추이</span>${trendChart('3', true)}</div>
     <p class="source-date">P 조사 ${esc(PREMIUM_BASE_DATE.replaceAll('-', '.'))}</p>`;
 }
@@ -179,6 +179,7 @@ const routes = {
 function renderRoute() {
   const page = location.hash.slice(1);
   const route = Object.hasOwn(routes, page) ? routes[page] : null;
+  document.body.classList.toggle('view-home', !route);
   $('dashboard').hidden = Boolean(route);
   $('detail').hidden = !route;
   if (route) {
