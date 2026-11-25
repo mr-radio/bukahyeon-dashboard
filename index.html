@@ -113,6 +113,36 @@
 .dashboard #priceTile .compact-spark{height:60px}
 }
 
+
+/* Chat briefing: wrap long continuous URLs and messages within narrow phones. */
+.detail #detailContent,
+.detail .chat-brief,
+.detail .chat-brief >summary,
+.detail .chat-brief section,
+.detail .chat-brief h4,
+.detail .chat-brief p {
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.detail .chat-brief {
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.detail .chat-brief >summary,
+.detail .chat-brief h4,
+.detail .chat-brief p,
+.detail .chat-brief a {
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.detail .chat-brief p {
+  white-space:pre-line;
+}
+@media(max-width:700px){
+  .detail .chat-brief{padding:13px 12px}
+  .detail .chat-brief section{max-width:100%}
+}
 </style></head><body><div class="wrap"><header class="hero"><div><div class="kicker">BUKAHYEON REDEVELOPMENT</div><h1>북아현3구역 브리핑</h1><p>뉴스 · 주요 블로거 · 서울 정비사업 · 시세</p></div><div class="num">03</div></header>
 <main class="dashboard" id="dashboard"><div class="stats" aria-label="대시보드 현황"><div class="stat"><label>최근소식</label><strong id="statNews">16건</strong><small>원문 연결</small></div><div class="stat"><label>주요 블로거</label><strong>6곳</strong><small>지정 블로거</small></div><div class="stat"><label>서울 정비사업</label><strong id="statSeoul">6건</strong><small>북아현 제외</small></div><div class="stat stat-price" role="button" tabindex="0" onclick="show('prices')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('prices')}"><label>북아현3구역 평균 P</label><strong id="headlinePrice">11.15억</strong><small id="headlineChange">지난주 대비 자료 없음</small></div></div><div class="tiles"><section class="tile" role="button" tabindex="0" aria-label="최근소식 상세보기" onclick="show('news')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('news')}"><div class="tiletitle">최근소식 <span class="new-slot" id="newsNew"></span><span class="arrow">›</span></div><p class="caption">북아현2·3구역 · 북아현뉴타운 · 서대문 재개발</p><div id="newsTile"></div></section>
 <section class="tile" role="button" tabindex="0" aria-label="주요 블로거 상세보기" onclick="show('blogs')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();show('blogs')}"><div class="tiletitle">주요 블로거 <span class="new-slot" id="blogsNew"></span><span class="arrow">›</span></div><p class="caption">직접 지정한 블로거 6곳</p><div id="blogTile"></div></section>
