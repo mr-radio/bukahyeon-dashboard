@@ -178,7 +178,7 @@ function authorCards(items){return items.map(b=>{
 function blogDetail(){return `<div class="filter"><input id="blogq" placeholder="블로거 이름·글 제목 검색" aria-label="블로그 검색"></div><div class="author-grid" id="authors">${authorCards(DATA.bloggers)}</div>`}
 
 function chatDetail() {
-  return newestFirst(CHAT_POSTS).map((post, i) => `<details class="panel chat-brief" ${i === 0 ? 'open' : ''}>
+  return newestFirst(CHAT_POSTS).map(post => `<details class="panel chat-brief">
     <summary>${badgeIfNew('chat', post.id)}${esc(post.title)}</summary><time class="chat-date">${esc(post.date)}</time>
     ${post.summary.split(/\n\n+/).map(block => {
       const [heading, ...body] = block.split('\n');
