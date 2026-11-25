@@ -55,12 +55,17 @@ function snapshot(zone) {
   };
 }
 function premiumHistory(zone) {
-  const stored = readStored(HISTORY_KEY, {});
-  const extra = Array.isArray(stored[zone]) ? stored[zone].filter(item =>
-    /^20\d{2}-\d{2}-\d{2}$/.test(item.date) && Number.isFinite(+item.value) && +item.value > 0
-    && item.date !== PREMIUM_BASE_DATE).map(item => ({ date: item.date, value: +item.value })) : [];
-  return [{ date: PREMIUM_BASE_DATE, value: snapshot(zone).avg }, ...extra]
-    .sort((a, b) => a.date.localeCompare(b.date));
+  // Public records are stored in index.html. Preserve local earlier records as fallback.
+  const stored=readStored(HISTORY_KEY,{});
+  const local=Array.isArray(stored[zone])?stored[zone]:[];
+  const shared=Array.isArray(PREMIUM_DAILY_HISTORY?.[zone])?PREMIUM_DAILY_HISTORY[zone]:[];
+  const base={date:PREMIUM_BASE_DATE,value:snapshot(zone).avg};
+  const dates=new Map();
+  for(const record of [...local,...shared,base]){
+    if(record&&/^20\d{2}-\d{2}-\d{2}$/.test(record.date)&&Number.isFinite(+record.value)&&+record.value>0)
+      dates.set(record.date,{date:record.date,value:+record.value});
+  }
+  return [...dates.values()].sort((a,b)=>a.date.localeCompare(b.date));
 }
 const latestPremium = zone => premiumHistory(zone).at(-1);
 function weeklyComparison(zone) {
@@ -80,18 +85,39 @@ function changeHtml(zone) {
   const sign = change.diff > 0 ? '+' : '';
   return `<span class="delta ${direction}">지난주 대비<b>${sign}${money(change.diff)} (${sign}${change.percent.toFixed(1)}%)</b></span>`;
 }
+// Daily observations on true calendar-day x positions; gaps are not interpolated.
 function trendChart(zone, compact = false) {
-  const series = premiumHistory(zone).slice(compact ? -8 : 0);
-  if (series.length < 2) return `<div class="${compact ? 'compact-trend-empty' : 'trend-empty'}">${compact ? '첫 기록 · 추이 자료 없음' : '기록이 쌓이면 추이 그래프가 표시됩니다.'}</div>`;
-  const width = 510, height = compact ? 110 : 184, pad = 20;
-  const values = series.map(item => item.value);
-  const low = Math.min(...values) - .3, high = Math.max(...values) + .3;
-  const points = series.map((item, i) =>
-    `${(pad + i * (width - 2 * pad) / (series.length - 1)).toFixed(1)},${(height - pad - (item.value - low) / (high - low) * (height - 2 * pad)).toFixed(1)}`);
-  return `<svg class="${compact ? 'compact-spark' : 'trend-svg'}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${zone}구역 평균 프리미엄 추이">
-    <polyline points="${points.join(' ')}" fill="none" stroke="#287655" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-    ${points.map(point => { const [x, y] = point.split(','); return `<circle cx="${x}" cy="${y}" r="4" fill="white" stroke="#287655" stroke-width="2"/>`; }).join('')}
-    </svg><div class="trend-meta"><span>${esc(series[0].date.slice(5))}</span><span>${esc(series.at(-1).date.slice(5))}</span></div>`;
+  const history=premiumHistory(zone);
+  if(!history.length)return '<div class="trend-empty">일별 조사 기록이 없습니다.</div>';
+  const MS=86400000, days=compact?14:30;
+  const endMs=Date.parse(history.at(-1).date+'T00:00:00Z');
+  const startMs=endMs-(days-1)*MS;
+  const sample=history.map(p=>({...p,ms:Date.parse(p.date+'T00:00:00Z')}))
+    .filter(p=>p.ms>=startMs&&p.ms<=endMs);
+  const W=510,H=compact?102:194,L=compact?18:28,R=compact?18:24,T=compact?13:18,B=compact?13:30;
+  const values=sample.map(p=>p.value), min=Math.min(...values), max=Math.max(...values);
+  const margin=min===max?.35:Math.max(.08,(max-min)*.22),lo=min-margin,hi=max+margin;
+  const x=ms=>L+(ms-startMs)/((days-1)*MS)*(W-L-R);
+  const y=v=>T+(hi-v)/(hi-lo)*(H-T-B);
+  const points=sample.map(p=>({...p,x:x(p.ms),y:y(p.value)}));
+  const lines=points.slice(1).map((p,i)=>{
+    const prior=points[i];
+    return p.ms-prior.ms===MS
+      ?`<line x1="${prior.x.toFixed(1)}" y1="${prior.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="#287655" stroke-width="${compact?5:3}" stroke-linecap="round"/>`
+      :'';
+  }).join('');
+  const marks=points.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${compact?7:5}" fill="white" stroke="#287655" stroke-width="${compact?4:3}"><title>${esc(p.date)} 평균 P ${esc(money(p.value))}</title></circle>`).join('');
+  const ticks=(compact?[0,days-1]:[0,7,14,21,days-1]).map((d,i,arr)=>{
+    const ms=startMs+d*MS,xx=x(ms).toFixed(1),label=new Date(ms).toISOString().slice(5,10).replace('-','/');
+    return `<line x1="${xx}" y1="${T}" x2="${xx}" y2="${H-B}" stroke="#e3ebe5"/>`+
+    (compact?'':`<text x="${xx}" y="${H-7}" text-anchor="${i===0?'start':i===arr.length-1?'end':'middle'}" font-size="12" fill="#70847a">${label}</text>`);
+  }).join('');
+  const first=new Date(startMs).toISOString().slice(5,10).replace('-','/');
+  const last=new Date(endMs).toISOString().slice(5,10).replace('-','/');
+  return `<svg class="${compact?'compact-spark':'trend-svg'}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${zone}구역 최근 ${days}일 일별 프리미엄 추이, 확인된 날짜 ${sample.length}일">
+    <line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#d6e4da"/>${ticks}${lines}${marks}</svg>
+    <div class="trend-meta"><span>${first}</span><span>${last}</span></div>
+    ${compact?'':`<p class="daily-chart-note">확인된 날짜 ${sample.length}일 · 조사되지 않은 날짜는 연결하지 않습니다.${sample.length<2?' 기록이 더 쌓이면 일별 변화를 비교할 수 있습니다.':''}</p>`}`;
 }
 
 // Make use of empty space in existing card frames, without stretching the grid.
@@ -125,7 +151,7 @@ function homeTiles() {
     `<div class="minirow"><div class="desc"><small>${esc(post.date.slice(5).replace('-', '.'))} 브리핑</small><span class="row-title">${badgeIfNew('chat', post.id)}${esc(post.title.replace(/^.*?·\s*/, ''))}</span></div></div>`).join('') || '<p class="empty">등록된 요약 없음</p>';
   $('priceTile').innerHTML = `<div class="pricegrid">${['3', '2'].map(zone =>
     `<div class="pricebox ${zone === '3' ? 'primary' : ''}"><small>${zone}구역</small><strong>${money(latestPremium(zone).value)}</strong>${weeklyComparison(zone) ? changeHtml(zone) : '<span class="delta">전주 비교 자료 없음</span>'}</div>`).join('')}</div>
-    <div class="compact-trend"><span class="compact-trend-label">3구역 프리미엄 추이</span>${trendChart('3', true)}</div>
+    <div class="compact-trend"><span class="compact-trend-label">3구역 일별 P 추이 · 최근 14일</span>${trendChart('3', true)}</div>
     <p class="source-date">P 조사 ${esc(PREMIUM_BASE_DATE.replaceAll('-', '.'))}</p>`;
   // Fit within the original card footprint, keeping the same two-by-two grid.
   // Use the actual DOM row nodes for baseline rather than cutting their HTML.
@@ -159,9 +185,9 @@ function chatDetail() {
       return `<section class="brief-section ${/주요 공지 및 운영진 답변|운영진 직접 답변/.test(heading) ? 'response' : ''}"><h4>${esc(heading)}</h4><p>${linkedText(body.join('\n'))}</p></section>`;
     }).join('')}</details>`).join('') || '<p class="empty">등록된 톡방 요약이 없습니다.</p>';
 }
-function detailTrendChart(z,compact=false){let series=premiumHistory(z),w=510,h=compact?112:184,pad=compact?14:23,chartH=h-2*pad;let vals=series.map(x=>x.value);let lo=Math.min(...vals)-.5,hi=Math.max(...vals)+.5,span=hi-lo;const xx=i=>series.length===1?w/2:pad+i*(w-2*pad)/(series.length-1);const yy=v=>h-pad-((v-lo)/span)*chartH;const points=series.map((x,i)=>`${xx(i).toFixed(1)},${yy(x.value).toFixed(1)}`).join(' ');let grid=[0.25,.5,.75].map(t=>`<line x1="${pad}" y1="${(pad+chartH*t).toFixed(0)}" x2="${w-pad}" y2="${(pad+chartH*t).toFixed(0)}" stroke="#e5eee7" stroke-dasharray="4 5"/>`).join('');let dots=series.map((x,i)=>`<circle cx="${xx(i)}" cy="${yy(x.value)}" r="${compact?5:6}" fill="#fff" stroke="#187655" stroke-width="3"/>`).join('');return `<div class="trend-wrap"><svg class="trend-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${z}구역 프리미엄 기록 추이, ${series.length}개 시점">${grid}${series.length>1?`<polyline points="${points}" fill="none" stroke="#187655" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`:''}${dots}</svg><div class="trend-meta"><span>${series[0].date.slice(5).replace('-','/')}</span><span>${series.length>1?series.at(-1).date.slice(5).replace('-','/'):'최초 기록 1건'}</span></div>${series.length===1?'<div class="trend-empty">지난주 값이 없어 추세선은 아직 표시하지 않습니다.</div>':''}</div>`;}
+function detailTrendChart(z){return '<div class="trend-wrap">'+trendChart(z,false)+'</div>';}
 
-function priceDetail(){let rows=['3','2'].map(z=>{let s=snapshot(z),p=DATA.price[z],latest=latestPremium(z);return `<section class="panel"><h3>북아현${z}구역 · 매물 프리미엄(P)</h3><div class="stats3"><div class="metric"><small>최저 P (최초 자료)</small><strong>${money(s.min)}</strong></div><div class="metric accent"><small>평균 프리미엄</small><strong>${money(latest.value)}</strong></div><div class="metric"><small>최대 P (최초 자료)</small><strong>${money(s.max)}</strong></div></div><div class="compare">${changeHtml(z)} · 최근 기록일 ${latest.date}</div><div class="detail-trend"><h4>주간 평균 P 추이</h4>${detailTrendChart(z)}</div><p>${link(p.url,'네이버 부동산 매물 원문 ↗')}</p></section>`}).join('');let near=`<section class="panel"><h3>주변 아파트 최근 확인 실거래 · 전용 84㎡대</h3>${DATA.near.map(x=>`<div class="resultrow"><small>${esc(x.name)}</small><strong class="nearprice">${money(x.price)}</strong><div class="blurb">${esc(x.size)} · 계약 ${esc(x.date)} · ${esc(x.floor)} · ${x.name.includes('라첼스')?'입주권 여부 별도 확인':'매매 실거래'}</div>${link(x.url,'실거래 출처 ↗')}</div>`).join('')}<div class="footer">경희궁자이는 2단지, 마포래미안푸르지오는 2단지 기준입니다. 라첼스는 분양권/입주권 거래 가능성이 있어 기존 주택 매매와 동일 조건으로 비교하면 안 됩니다. 공식 국토교통부 자료와 계약해제 여부 재확인이 필요합니다.</div></section>`;return rows+near}
+function priceDetail(){let rows=['3','2'].map(z=>{let s=snapshot(z),p=DATA.price[z],latest=latestPremium(z);return `<section class="panel"><h3>북아현${z}구역 · 매물 프리미엄(P)</h3><div class="stats3"><div class="metric"><small>최저 P (최초 자료)</small><strong>${money(s.min)}</strong></div><div class="metric accent"><small>평균 프리미엄</small><strong>${money(latest.value)}</strong></div><div class="metric"><small>최대 P (최초 자료)</small><strong>${money(s.max)}</strong></div></div><div class="compare">${changeHtml(z)} · 최근 기록일 ${latest.date}</div><div class="detail-trend"><h4>일별 평균 P 추이 · 최근 30일</h4>${detailTrendChart(z)}</div><p>${link(p.url,'네이버 부동산 매물 원문 ↗')}</p></section>`}).join('');let near=`<section class="panel"><h3>주변 아파트 최근 확인 실거래 · 전용 84㎡대</h3>${DATA.near.map(x=>`<div class="resultrow"><small>${esc(x.name)}</small><strong class="nearprice">${money(x.price)}</strong><div class="blurb">${esc(x.size)} · 계약 ${esc(x.date)} · ${esc(x.floor)} · ${x.name.includes('라첼스')?'입주권 여부 별도 확인':'매매 실거래'}</div>${link(x.url,'실거래 출처 ↗')}</div>`).join('')}<div class="footer">경희궁자이는 2단지, 마포래미안푸르지오는 2단지 기준입니다. 라첼스는 분양권/입주권 거래 가능성이 있어 기존 주택 매매와 동일 조건으로 비교하면 안 됩니다. 공식 국토교통부 자료와 계약해제 여부 재확인이 필요합니다.</div></section>`;return rows+near}
 
 const routes = {
   news: ['북아현·서대문 최근소식', newsDetail, 'news'],
