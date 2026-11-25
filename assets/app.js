@@ -187,7 +187,7 @@ function chatDetail() {
 }
 function detailTrendChart(z){return '<div class="trend-wrap">'+trendChart(z,false)+'</div>';}
 
-function priceDetail(){let rows=['3','2'].map(z=>{let s=snapshot(z),p=DATA.price[z],latest=latestPremium(z);return `<section class="panel"><h3>북아현${z}구역 · 매물 프리미엄(P)</h3><div class="stats3"><div class="metric"><small>최저 P (최초 자료)</small><strong>${money(s.min)}</strong></div><div class="metric accent"><small>평균 프리미엄</small><strong>${money(latest.value)}</strong></div><div class="metric"><small>최대 P (최초 자료)</small><strong>${money(s.max)}</strong></div></div><div class="compare">${changeHtml(z)} · 최근 기록일 ${latest.date}</div><div class="detail-trend"><h4>일별 평균 P 추이 · 최근 30일</h4>${detailTrendChart(z)}</div><p>${link(p.url,'네이버 부동산 매물 원문 ↗')}</p></section>`}).join('');let near=`<section class="panel"><h3>주변 아파트 최근 확인 실거래 · 전용 84㎡대</h3>${DATA.near.map(x=>`<div class="resultrow"><small>${esc(x.name)}</small><strong class="nearprice">${money(x.price)}</strong><div class="blurb">${esc(x.size)} · 계약 ${esc(x.date)} · ${esc(x.floor)} · ${x.name.includes('라첼스')?'입주권 여부 별도 확인':'매매 실거래'}</div>${link(x.url,'실거래 출처 ↗')}</div>`).join('')}<div class="footer">경희궁자이는 2단지, 마포래미안푸르지오는 2단지 기준입니다. 라첼스는 분양권/입주권 거래 가능성이 있어 기존 주택 매매와 동일 조건으로 비교하면 안 됩니다. 공식 국토교통부 자료와 계약해제 여부 재확인이 필요합니다.</div></section>`;return rows+near}
+function priceDetail(){let rows=['3','2'].map(z=>{let s=snapshot(z),p=DATA.price[z],latest=latestPremium(z);return `<section class="panel"><h3>북아현${z}구역 · 매물 프리미엄(P)</h3><div class="stats3"><div class="metric"><small>최저 P (최초 자료)</small><strong>${money(s.min)}</strong></div><div class="metric accent"><small>평균 프리미엄</small><strong>${money(latest.value)}</strong></div><div class="metric"><small>최대 P (최초 자료)</small><strong>${money(s.max)}</strong></div></div><div class="compare">${changeHtml(z)} · 최근 기록일 ${latest.date}</div><div class="detail-trend"><h4>일별 평균 P 추이 · 최근 30일</h4>${detailTrendChart(z)}</div><p>${link(p.url,'네이버 부동산 매물 원문 ↗')}</p></section>`}).join('');let near=`<section class="panel"><h3>주변 아파트 최근 확인 실거래 · 전용 84㎡대</h3>${DATA.near.map(x=>`<div class="resultrow"><small>${esc(x.name)}</small><strong class="nearprice">${money(x.price)}</strong><div class="blurb">${esc(x.size)} · 계약 ${esc(x.date)} · ${esc(x.floor)} · ${esc(x.tradeType || (x.name.includes('라첼스')?'입주권 여부 별도 확인':'매매 실거래'))}</div>${link(x.url,'실거래 출처 ↗')}</div>`).join('')}<div class="footer">경희궁자이는 2단지, 마포래미안푸르지오는 2단지 기준입니다. 라첼스는 출처에 입주권으로 표시된 거래이며 기존 주택 매매와 조건이 다릅니다. 신고·해제 반영에는 시차가 있을 수 있습니다.</div></section>`;return rows+near}
 
 const routes = {
   news: ['북아현·서대문 최근소식', newsDetail, 'news'],
@@ -284,3 +284,4 @@ window.addEventListener('resize',()=>{
 });
 window.addEventListener('hashchange', renderRoute);
 renderRoute();
+
