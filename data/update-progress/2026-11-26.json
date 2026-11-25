@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-11-26",
+  "cutoff": "2026-11-25T23:59:59+09:00",
+  "order": [
+    "news",
+    "blogNews",
+    "cafe",
+    "blogger:ahyeonddu",
+    "blogger:philipcommunications",
+    "blogger:yoonyoung17",
+    "blogger:miryeo2032",
+    "blogger:heros0694",
+    "blogger:joyland7499",
+    "seoul",
+    "chat:2026-11-25",
+    "nearby1",
+    "nearby2",
+    "nearby3",
+    "premium3",
+    "premium2",
+    "deployment"
+  ],
+  "tasks": {
+    "news": {
+      "scanStatus": "partial",
+      "writeStatus": "committed",
+      "cursor": {
+        "covered": [
+          "이전 실행 네이버 검색"
+        ],
+        "pending": "지침 검색어·정렬·페이지별 완료 여부 확인"
+      },
+      "nextAction": "현재 등록 URL·게시글 ID를 제외하고 미확인 검색어 하나·한 페이지부터",
+      "counts": {
+        "added": 1,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": "자료 저장은 확인되지만 전체 검색어/페이지 완료 기록은 없음",
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "blogNews": {
+      "scanStatus": "partial",
+      "writeStatus": "committed",
+      "cursor": {
+        "covered": [
+          "이전 실행 네이버 검색"
+        ],
+        "pending": "지침 검색어·정렬·페이지별 완료 여부 확인"
+      },
+      "nextAction": "현재 등록 URL·게시글 ID를 제외하고 미확인 검색어 하나·한 페이지부터",
+      "counts": {
+        "added": 1,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": "자료 저장은 확인되지만 전체 검색어/페이지 완료 기록은 없음",
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "cafe": {
+      "scanStatus": "blocked",
+      "writeStatus": "none",
+      "cursor": null,
+      "nextAction": "공개 검색 결과를 한 페이지씩 보고 공개 본문이 열리는 후보만 검수",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": "이전 대상 카페 원문 로그인 제한/수집 오류. 신규 없음 확정 아님",
+      "updatedAt": "2026-11-25T22:58:37.407Z"
+    },
+    "blogger:ahyeonddu": {
+      "scanStatus": "complete",
+      "writeStatus": "committed",
+      "cursor": {
+        "through": "2026-11-25",
+        "registeredPosts": 29
+      },
+      "nextAction": null,
+      "counts": {
+        "added": 1,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": null,
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "blogger:philipcommunications": {
+      "scanStatus": "complete",
+      "writeStatus": "no_change",
+      "cursor": {
+        "through": "2026-11-25",
+        "registeredPosts": 5
+      },
+      "nextAction": null,
+      "counts": {
+        "added": 0,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": null,
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "blogger:yoonyoung17": {
+      "scanStatus": "complete",
+      "writeStatus": "no_change",
+      "cursor": {
+        "through": "2026-11-25",
+        "registeredPosts": 24
+      },
+      "nextAction": null,
+      "counts": {
+        "added": 0,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": null,
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "blogger:miryeo2032": {
+      "scanStatus": "complete",
+      "writeStatus": "no_change",
+      "cursor": {
+        "through": "2026-11-25",
+        "registeredPosts": 22
+      },
+      "nextAction": null,
+      "counts": {
+        "added": 0,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": null,
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "blogger:heros0694": {
+      "scanStatus": "complete",
+      "writeStatus": "no_change",
+      "cursor": {
+        "through": "2026-11-25",
+        "registeredPosts": 27
+      },
+      "nextAction": null,
+      "counts": {
+        "added": 0,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": null,
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "blogger:joyland7499": {
+      "scanStatus": "complete",
+      "writeStatus": "committed",
+      "cursor": {
+        "through": "2026-11-25",
+        "registeredPosts": 78
+      },
+      "nextAction": null,
+      "counts": {
+        "added": 75,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": null,
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "seoul": {
+      "scanStatus": "pending",
+      "writeStatus": "none",
+      "cursor": null,
+      "nextAction": "최신 등록 ID를 먼저 읽고 미확인 범위부터 처리",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [],
+      "reason": "검색·검증 범위의 상세 커서가 없어 최신 등록 자료와 대조 후 남은 범위를 확인",
+      "updatedAt": "2026-11-25T22:58:37.407Z"
+    },
+    "chat:2026-11-25": {
+      "scanStatus": "complete",
+      "writeStatus": "committed",
+      "cursor": {
+        "reviewedChunks": 10,
+        "lastMessageKST": "2026-11-25T23:37:00+09:00"
+      },
+      "nextAction": null,
+      "counts": {
+        "added": 1,
+        "reviewed": 10
+      },
+      "attempts": [],
+      "evidence": [
+        "data/chat/2026-11-25.json",
+        "data/updates/2026-11-26.json"
+      ],
+      "reason": null,
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+    },
+    "nearby1": {
+      "scanStatus": "pending",
+      "writeStatus": "none",
+      "cursor": null,
+      "nextAction": "최신 등록 ID를 먼저 읽고 미확인 범위부터 처리",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [],
+      "reason": "검색·검증 범위의 상세 커서가 없어 최신 등록 자료와 대조 후 남은 범위를 확인",
+      "updatedAt": "2026-11-25T22:58:37.407Z"
+    },
+    "nearby2": {
+      "scanStatus": "pending",
+      "writeStatus": "none",
+      "cursor": null,
+      "nextAction": "최신 등록 ID를 먼저 읽고 미확인 범위부터 처리",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [],
+      "reason": "검색·검증 범위의 상세 커서가 없어 최신 등록 자료와 대조 후 남은 범위를 확인",
+      "updatedAt": "2026-11-25T22:58:37.407Z"
+    },
+    "nearby3": {
+      "scanStatus": "pending",
+      "writeStatus": "none",
+      "cursor": null,
+      "nextAction": "최신 등록 ID를 먼저 읽고 미확인 범위부터 처리",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [],
+      "reason": "검색·검증 범위의 상세 커서가 없어 최신 등록 자료와 대조 후 남은 범위를 확인",
+      "updatedAt": "2026-11-25T22:58:37.407Z"
+    },
+    "premium3": {
+      "scanStatus": "partial",
+      "writeStatus": "committed",
+      "cursor": {
+        "latestDataDate": "2026-11-26"
+      },
+      "nextAction": "갱신 커밋과 매물 근거를 먼저 대조. 이전 실패를 이유로 새 값을 덮어쓰지 않음",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "https://github.com/mr-radio/bukahyeon-dashboard/commit/1129a0a2f8f55f13fd5fdbf069858f019201c4ee",
+        "data/premium/2026-11-26.json"
+      ],
+      "reason": "11/26 값 갱신 커밋과 failed_preserved 표시·이전 실패 기록이 충돌. 근거/상태 재대조 필요",
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "1129a0a2f8f55f13fd5fdbf069858f019201c4ee"
+    },
+    "premium2": {
+      "scanStatus": "partial",
+      "writeStatus": "committed",
+      "cursor": {
+        "latestDataDate": "2026-11-26"
+      },
+      "nextAction": "갱신 커밋과 매물 근거를 먼저 대조. 이전 실패를 이유로 새 값을 덮어쓰지 않음",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [
+        "https://github.com/mr-radio/bukahyeon-dashboard/commit/1129a0a2f8f55f13fd5fdbf069858f019201c4ee",
+        "data/premium/2026-11-26.json"
+      ],
+      "reason": "11/26 값 갱신 커밋과 failed_preserved 표시·이전 실패 기록이 충돌. 근거/상태 재대조 필요",
+      "updatedAt": "2026-11-25T22:58:37.407Z",
+      "commitSha": "1129a0a2f8f55f13fd5fdbf069858f019201c4ee"
+    },
+    "deployment": {
+      "scanStatus": "pending",
+      "writeStatus": "none",
+      "cursor": null,
+      "nextAction": "배치의 신규 고유 URL·날짜를 공개 페이지에서 확인",
+      "counts": {
+        "added": null,
+        "reviewed": null
+      },
+      "attempts": [],
+      "evidence": [],
+      "reason": "이후 실제 콘텐츠 변경 배치의 공개 반영을 확인",
+      "updatedAt": "2026-11-25T22:58:37.407Z"
+    }
+  },
+  "updatedAt": "2026-11-25T22:58:37.407Z",
+  "scope": "resume_pending_scope",
+  "baseline": {
+    "indexBlobSha": "6bd79234b543195259e95d2b3236c401360c7776",
+    "newsCount": 26,
+    "seoulCount": 9,
+    "registeredChatDates": [
+      "2026-11-20",
+      "2026-11-21",
+      "2026-11-22",
+      "2026-11-23",
+      "2026-11-24",
+      "2026-11-25"
+    ],
+    "note": "Initialized from repository records. Pending tasks require coverage review, not repeating registered content."
+  },
+  "successfulRoutes": {},
+  "migrationNotes": [
+    "최근 성공한 시세 갱신 커밋은 확인했지만 사용 도구·경로는 커밋에 없어 임의 복원하지 않음.",
+    "기존 콘텐츠는 재등록하지 않고 원문 검수와 검색 범위만 이어감."
+  ]
+}
