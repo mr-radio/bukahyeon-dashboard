@@ -24,12 +24,19 @@
   "tasks": {
     "news": {
       "scanStatus": "partial",
-      "writeStatus": "ready",
+      "writeStatus": "committed",
       "cursor": {
         "covered": [
           {
             "query": "북아현",
             "sort": "latest",
+            "page": 1,
+            "from": "2026-10-12",
+            "through": "2026-11-25"
+          },
+          {
+            "query": "북아현3구역",
+            "sort": "relevance",
             "page": 1,
             "from": "2026-10-12",
             "through": "2026-11-25"
@@ -48,41 +55,57 @@
       ],
       "reason": "첫 신규 기사 원문 검수 완료. 추가 검색어와 페이지 조사 계속",
       "updatedAt": "2026-11-25T23:14:42.444Z",
-      "pendingBatch": {
-        "id": "news-20261126-munhwa",
-        "urls": [
-          "https://n.news.naver.com/mnews/article/021/0002833906"
-        ],
-        "dataIncluded": true
-      }
+      "commitSha": "2d5a4bda0198ee2495f404a00b42f66539cddb64"
     },
     "blogNews": {
       "scanStatus": "partial",
-      "writeStatus": "committed",
+      "writeStatus": "ready",
       "cursor": {
         "covered": [
-          "이전 실행 네이버 검색"
+          {
+            "query": "북아현3구역",
+            "sort": "latest",
+            "page": 1
+          }
         ],
-        "pending": "지침 검색어·정렬·페이지별 완료 여부 확인"
+        "pending": "다른 검색어·관련도순·추가 페이지"
       },
-      "nextAction": "현재 등록 URL·게시글 ID를 제외하고 미확인 검색어 하나·한 페이지부터",
+      "nextAction": "다음 검색어·관련도순·추가 페이지에서 기등록 ID 제외",
       "counts": {
-        "added": 1,
-        "reviewed": null
+        "added": 3,
+        "reviewed": 2
       },
       "attempts": [],
       "evidence": [
         "data/updates/2026-11-26.json"
       ],
-      "reason": "자료 저장은 확인되지만 전체 검색어/페이지 완료 기록은 없음",
-      "updatedAt": "2026-11-25T22:58:37.407Z",
-      "commitSha": "df2996d9bd48321d9eec4fbf94acfeac131ed2f9"
+      "reason": "블로그 본문 검수 후 누락 2건 저장. 추가 검색 범위 조사 중",
+      "updatedAt": "2026-11-25T23:17:56.669Z",
+      "pendingBatch": {
+        "id": "blog-news-20261126-2",
+        "urls": [
+          "https://blog.naver.com/khs31383n/224491598523",
+          "https://blog.naver.com/joyland7499/224488153408"
+        ],
+        "dataIncluded": true
+      }
     },
     "cafe": {
       "scanStatus": "blocked",
       "writeStatus": "none",
-      "cursor": null,
-      "nextAction": "공개 검색 결과를 한 페이지씩 보고 공개 본문이 열리는 후보만 검수",
+      "cursor": {
+        "covered": [
+          {
+            "query": "북아현3구역",
+            "sort": "latest",
+            "page": 1
+          }
+        ],
+        "blockedUrls": [
+          "https://cafe.naver.com/hansuri2250/8349"
+        ]
+      },
+      "nextAction": "공개 본문을 확보할 수 있는 다른 후보가 있는지 확인. 로그인 제한은 우회하지 않음",
       "counts": {
         "added": null,
         "reviewed": null
@@ -91,8 +114,8 @@
       "evidence": [
         "data/updates/2026-11-26.json"
       ],
-      "reason": "이전 대상 카페 원문 로그인 제한/수집 오류. 신규 없음 확정 아님",
-      "updatedAt": "2026-11-25T22:58:37.407Z"
+      "reason": "현재 직접 HTTP 검색은 성공. 검토 후보 hansuri2250/8349 원문은 로그인으로 연결",
+      "updatedAt": "2026-11-25T23:17:56.669Z"
     },
     "blogger:ahyeonddu": {
       "scanStatus": "complete",
@@ -346,7 +369,7 @@
       "updatedAt": "2026-11-25T22:58:37.407Z"
     }
   },
-  "updatedAt": "2026-11-25T23:14:42.444Z",
+  "updatedAt": "2026-11-25T23:17:56.669Z",
   "scope": "recent_news_resume",
   "baseline": {
     "indexBlobSha": "6bd79234b543195259e95d2b3236c401360c7776",
@@ -374,10 +397,40 @@
         "data-date-time"
       ],
       "pagination": "start=1,11,21…"
+    },
+    "naver.blog": {
+      "tool": "execution HTTP (urllib)",
+      "publicUrl": "https://m.blog.naver.com/joyland7499/224488153408",
+      "checkedAt": "2026-11-25T23:17:56.669Z",
+      "fields": [
+        "title",
+        "visible publication date",
+        "body"
+      ],
+      "pagination": "ssc=tab.blog.all; start increments"
     }
   },
   "migrationNotes": [
     "최근 성공한 시세 갱신 커밋은 확인했지만 사용 도구·경로는 커밋에 없어 임의 복원하지 않음.",
     "기존 콘텐츠는 재등록하지 않고 원문 검수와 검색 범위만 이어감."
+  ],
+  "runs": [
+    {
+      "id": "news-resume-20261126-actual-batches",
+      "scope": "최근소식",
+      "added": {
+        "news": 1,
+        "blog": 2,
+        "cafe": 0
+      },
+      "dateCorrections": [
+        {
+          "url": "https://blog.naver.com/joyland7499/224488153408",
+          "date": "2026-11-23",
+          "basis": "original visible publication date"
+        }
+      ],
+      "at": "2026-11-25T23:17:56.669Z"
+    }
   ]
 }
