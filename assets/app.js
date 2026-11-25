@@ -94,6 +94,18 @@ function trendChart(zone, compact = false) {
     </svg><div class="trend-meta"><span>${esc(series[0].date.slice(5))}</span><span>${esc(series.at(-1).date.slice(5))}</span></div>`;
 }
 
+// Make use of empty space in existing card frames, without stretching the grid.
+function fitHomePreview(id, baseMarkup, fullMarkup) {
+  const area=$(id);
+  area.style.maxHeight='';
+  area.innerHTML=baseMarkup;
+  const available=area.clientHeight;
+  if(!available)return;
+  area.style.maxHeight=available+'px';
+  area.innerHTML=fullMarkup;
+  while(area.children.length>1 && area.scrollHeight>area.clientHeight+1) area.lastElementChild.remove();
+}
+
 function homeTiles() {
   $('newsNew').innerHTML = badgeCount('news') || badgeCount('seoul');
   $('blogsNew').innerHTML = badgeCount('blogs');
@@ -105,16 +117,25 @@ function homeTiles() {
   $('updateNew').textContent = unread ? `새로 등록 ${unread}건` : '북아현 소식 모아보기';
   $('newsTile').innerHTML = newestFirst(DATA.news).slice(0, 3).map(item =>
     `<div class="minirow"><div class="desc"><small>${esc(item.date.slice(5).replace('-', '.'))} · ${esc(item.source)}</small><span class="row-title">${badgeIfNew('news', item.url)}${esc(item.title)}</span></div></div>`).join('');
-  $('blogTile').innerHTML = DATA.bloggers.slice(0, 4).map(blogger => {
+  const blogMarkup = DATA.bloggers.slice(0, 6).map(blogger => {
     const posts = bloggerPosts(blogger);
     return `<div class="minirow blog-row"><div class="desc"><span class="row-title" title="${esc(blogger.name)}">${posts.some(post => newIds.blogs.has(post.url)) ? newMark() : ''}${esc(blogger.name)}</span></div><span class="pill">${posts.length}건</span></div>`;
   }).join('');
-  $('chatTile').innerHTML = newestFirst(CHAT_POSTS).slice(0, 3).map(post =>
+  const chatMarkup = newestFirst(CHAT_POSTS).slice(0, 5).map(post =>
     `<div class="minirow"><div class="desc"><small>${esc(post.date.slice(5).replace('-', '.'))} 브리핑</small><span class="row-title">${badgeIfNew('chat', post.id)}${esc(post.title.replace(/^.*?·\s*/, ''))}</span></div></div>`).join('') || '<p class="empty">등록된 요약 없음</p>';
   $('priceTile').innerHTML = `<div class="pricegrid">${['3', '2'].map(zone =>
     `<div class="pricebox ${zone === '3' ? 'primary' : ''}"><small>${zone}구역</small><strong>${money(latestPremium(zone).value)}</strong>${weeklyComparison(zone) ? changeHtml(zone) : '<span class="delta">전주 비교 자료 없음</span>'}</div>`).join('')}</div>
     <div class="compact-trend"><span class="compact-trend-label">3구역 프리미엄 추이</span>${trendChart('3', true)}</div>
     <p class="source-date">P 조사 ${esc(PREMIUM_BASE_DATE.replaceAll('-', '.'))}</p>`;
+  // Fit within the original card footprint, keeping the same two-by-two grid.
+  // Use the actual DOM row nodes for baseline rather than cutting their HTML.
+  const b=document.createElement('div');
+  b.innerHTML=blogMarkup;
+  const c=document.createElement('div');
+  c.innerHTML=chatMarkup;
+  fitHomePreview('blogTile',Array.from(b.children).slice(0,4).map(el=>el.outerHTML).join(''),blogMarkup);
+  fitHomePreview('chatTile',Array.from(c.children).slice(0,3).map(el=>el.outerHTML).join(''),chatMarkup);
+
 }
 
 let newsMode = '전체';
@@ -226,6 +247,13 @@ document.addEventListener('input', event => {
     const query = event.target.value.toLowerCase().trim();
     $('authors').innerHTML = authorCards(DATA.bloggers.filter(blogger =>
       [blogger.name, blogger.id, ...bloggerPosts(blogger).map(post => post.title)].join(' ').toLowerCase().includes(query)));
+  }
+});
+let homeResizeFrame=0;
+window.addEventListener('resize',()=>{
+  if(!$('dashboard').hidden) {
+    cancelAnimationFrame(homeResizeFrame);
+    homeResizeFrame=requestAnimationFrame(homeTiles);
   }
 });
 window.addEventListener('hashchange', renderRoute);
