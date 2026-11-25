@@ -250,3 +250,16 @@ body.view-home .wrap {height: 100svh; min-height: 0;}
 
 /* A compact daily-chart explanatory note below the detailed price graph. */
 .detail .daily-chart-note{margin:7px 0 0;font-size:11px;line-height:1.45;color:var(--muted);overflow-wrap:anywhere}
+
+/* Small footer page-view badge. No changes to home cards, grid, or hero. */
+.site-footer{display:flex;flex-direction:column;align-items:center;gap:1px}
+.site-footer-notice{display:block;min-width:0;max-width:100%;text-align:center}
+.site-visit-count{display:inline-flex;align-self:flex-end;align-items:center;min-height:16px;line-height:1;text-decoration:none;opacity:.83}
+.site-visit-count:hover{opacity:1}
+.site-visit-count img{display:block;height:16px;width:auto;max-width:min(135px,45vw);border:0}
+@media(max-width:600px){
+ .site-footer{gap:0;padding-top:3px}
+ .site-footer-notice{font-size:10px}
+ .site-visit-count{min-height:14px}
+ .site-visit-count img{height:14px;max-width:min(118px,40vw)}
+}
