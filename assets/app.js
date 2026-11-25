@@ -8,10 +8,6 @@ const money = value => Number(value).toFixed(2).replace(/0+$/, '').replace(/\.$/
 const newestFirst = items => items.slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 const bloggerPosts = blogger => newestFirst(blogger.scope === 'category'
   ? blogger.posts.filter(post => post.categoryNo === 38) : blogger.posts);
-const shortNames = {
-  ahyeonddu: '아현뚜', yoonyoung17: '부자 언니 되기', miryeo2032: '삼성부동산',
-  heros0694: '부동산뱅크', joyland7499: '부동산랜드', jmd0104: '까르'
-};
 const link = (url, label = '원문 보기') => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`;
 const linkedText = text => text.split(/(https?:\/\/[^\s<>]+)/g)
   .map(part => /^https?:\/\//.test(part) ? link(part, part) : esc(part)).join('');
@@ -109,9 +105,9 @@ function homeTiles() {
   $('updateNew').textContent = unread ? `새로 등록 ${unread}건` : '북아현 소식 모아보기';
   $('newsTile').innerHTML = newestFirst(DATA.news).slice(0, 3).map(item =>
     `<div class="minirow"><div class="desc"><small>${esc(item.date.slice(5).replace('-', '.'))} · ${esc(item.source)}</small><span class="row-title">${badgeIfNew('news', item.url)}${esc(item.title)}</span></div></div>`).join('');
-  $('blogTile').innerHTML = DATA.bloggers.map(blogger => {
+  $('blogTile').innerHTML = DATA.bloggers.slice(0, 4).map(blogger => {
     const posts = bloggerPosts(blogger);
-    return `<div class="minirow blog-row"><div class="desc"><span class="row-title" title="${esc(blogger.name)}">${posts.some(post => newIds.blogs.has(post.url)) ? newMark() : ''}${esc(shortNames[blogger.id] || blogger.name)}</span></div><span class="pill">${posts.length}건</span></div>`;
+    return `<div class="minirow blog-row"><div class="desc"><span class="row-title" title="${esc(blogger.name)}">${posts.some(post => newIds.blogs.has(post.url)) ? newMark() : ''}${esc(blogger.name)}</span></div><span class="pill">${posts.length}건</span></div>`;
   }).join('');
   $('chatTile').innerHTML = newestFirst(CHAT_POSTS).slice(0, 3).map(post =>
     `<div class="minirow"><div class="desc"><small>${esc(post.date.slice(5).replace('-', '.'))} 브리핑</small><span class="row-title">${badgeIfNew('chat', post.id)}${esc(post.title.replace(/^.*?·\s*/, ''))}</span></div></div>`).join('') || '<p class="empty">등록된 요약 없음</p>';
@@ -149,7 +145,7 @@ function priceDetail(){let rows=['3','2'].map(z=>{let s=snapshot(z),p=DATA.price
 const routes = {
   news: ['북아현·서대문 최근소식', newsDetail, 'news'],
   seoul: ['서울 정비사업', newsDetail, 'seoul'],
-  blogs: ['주요 블로거', blogDetail, 'blogs'],
+  blogs: ['블로그', blogDetail, 'blogs'],
   prices: ['시세와 주변 실거래', priceDetail],
   chat: ['아현뚜방 브리핑', chatDetail, 'chat']
 };
