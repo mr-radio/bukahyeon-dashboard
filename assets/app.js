@@ -122,29 +122,18 @@ function homeTiles() {
 }
 
 let newsMode = '전체';
-function newsRows() {
-  const query = ($('nq')?.value || '').trim().toLowerCase();
-  const source = newsMode === '서울 정비사업' ? DATA.seoul.map(item => ({ ...item, kind: '뉴스' })) : DATA.news;
-  const items = newestFirst(source).filter(item =>
-    (newsMode === '전체' || newsMode === '서울 정비사업' || item.kind === newsMode)
-    && (!query || [item.title, item.source, item.summary, item.area].join(' ').toLowerCase().includes(query)));
-  return items.map(item => `<a class="news-card" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">
-    <div class="news-meta"><span class="news-tag">${esc(item.kind)}</span>${badgeIfNew(newsMode === '서울 정비사업' ? 'seoul' : 'news', item.url)}<time>${esc(item.date.replaceAll('-', '.'))}</time><span>${esc(item.source)}</span></div>
-    <h3 class="news-headline">${esc(item.title)}</h3><p>${esc(item.summary || '')}</p></a>`).join('') || '<p class="empty">조건에 맞는 소식이 없습니다.</p>';
-}
-function newsDetail() {
-  return `<div class="news-filter" role="group" aria-label="소식 유형">${['전체', '뉴스', '블로그', '카페', '서울 정비사업'].map(mode =>
-    `<button class="news-chip ${mode === newsMode ? 'selected' : ''}" type="button" data-news-mode="${mode}" aria-pressed="${mode === newsMode}">${mode}</button>`).join('')}</div>
-    <input class="search" id="nq" type="search" placeholder="제목·출처·내용 검색" aria-label="소식 검색"><div class="news-cards" id="newsItems">${newsRows()}</div>`;
-}
-function authorCards(items) {
-  return items.map(blogger => `<article class="author"><h3>${esc(blogger.name)}</h3>${bloggerPosts(blogger).slice(0, 5).map(post =>
-    `<a class="post" href="${esc(post.url)}" target="_blank" rel="noopener noreferrer">${badgeIfNew('blogs', post.url)}${esc(post.title)}${post.date ? `<small>${esc(post.date)}</small>` : ''}</a>`).join('')}
-    <div class="bottom">${link(blogger.url, blogger.scope === 'category' ? '재개발 글 전체 보기' : '블로그 모든 글 보기')}</div></article>`).join('') || '<p class="empty">검색 결과가 없습니다.</p>';
-}
-function blogDetail() {
-  return `<input class="search" id="blogq" type="search" placeholder="블로거·글 제목 검색" aria-label="블로거 검색"><div class="author-grid" id="authors">${authorCards(DATA.bloggers)}</div>`;
-}
+function newsRows(){let q=(document.getElementById('nq')?.value||'').trim().toLowerCase();let source=newsMode==='서울 정비사업'?DATA.seoul.map(x=>({...x,kind:'뉴스',area:'서울 정비사업'})):DATA.news;let items=source.filter(x=>(newsMode==='서울 정비사업'||newsMode==='전체'||x.kind===newsMode)&&(!q||(x.title+' '+x.source+' '+x.summary+' '+(x.area||'')).toLowerCase().includes(q))).sort((a,b)=>b.date.localeCompare(a.date));if(!items.length)return `<div class="news-empty">등록된 ${esc(newsMode)} 소식이 없습니다.<small>검증된 새 글이 수집되면 여기에 표시됩니다.</small></div>`;return items.map(x=>`<a class="news-card" target="_blank" rel="noopener noreferrer" href="${esc(x.url)}" aria-label="게시글 원문 열기: ${esc(x.title)}"><div class="news-meta"><span class="news-tag">${x.kind==='뉴스'?'NEWS':x.kind==='블로그'?'BLOG':esc(x.kind)}</span>${badgeIfNew(newsMode==='서울 정비사업'?'seoul':'news',x.url)}<time>${esc(x.date.replaceAll('-','.'))}</time><span>·</span><span>${esc(x.source)}</span><span class="origin-note">· ${esc(x.area||'북아현')} · 원문 바로가기 ↗</span></div><div class="news-headline">${esc(x.title)}</div><p>${esc(x.summary||'관련 보도를 원문에서 확인할 수 있습니다.')}</p></a>`).join('')}
+
+function newsDetail(){return `<div class="news-filter" role="group" aria-label="소식 유형">${['전체','뉴스','블로그','카페','서울 정비사업'].map(t=>`<button type="button" class="news-chip ${t===newsMode?'selected':''}" data-news-mode="${t}" aria-pressed="${t===newsMode}">${t}</button>`).join('')}</div><div class="seoul-search"><input id="nq" type="search" placeholder="북아현3구역 · 조합 · 이주 등 검색" aria-label="최근소식 검색"></div><div class="news-cards" id="newsItems">${newsRows()}</div>`}
+
+function authorCards(items){return items.map(b=>{
+  const posts=b.scope==='category'?b.posts.filter(p=>p.categoryNo===38):b.posts;
+  const preview=posts.slice(0,5).map(p=>`<a class="post" target="_blank" rel="noopener noreferrer" href="${esc(p.url)}">↗ ${badgeIfNew('blogs',p.url)}${esc(p.title)} ${p.date?`<small>(${esc(p.date)})</small>`:''}</a>`).join('');
+  return `<div class="author"><h3>${esc(b.name)} ${posts.slice(0,5).some(p=>newIds.blogs.has(p.url))?newMark():''}</h3>${preview}<div class="bottom">${link(b.url,b.scope==='category'?'재개발 글 전체 보기 ↗':'블로그 모든 글 보기 ↗')}</div></div>`;
+}).join('')}
+
+function blogDetail(){return `<div class="filter"><input id="blogq" placeholder="블로거 이름·글 제목 검색" aria-label="블로그 검색"></div><div class="author-grid" id="authors">${authorCards(DATA.bloggers)}</div>`}
+
 function chatDetail() {
   return newestFirst(CHAT_POSTS).map((post, i) => `<details class="panel chat-brief" ${i === 0 ? 'open' : ''}>
     <summary>${badgeIfNew('chat', post.id)}${esc(post.title)}</summary><time class="chat-date">${esc(post.date)}</time>
@@ -153,21 +142,9 @@ function chatDetail() {
       return `<section class="brief-section ${/주요 공지 및 운영진 답변|운영진 직접 답변/.test(heading) ? 'response' : ''}"><h4>${esc(heading)}</h4><p>${linkedText(body.join('\n'))}</p></section>`;
     }).join('')}</details>`).join('') || '<p class="empty">등록된 톡방 요약이 없습니다.</p>';
 }
-function priceDetail() {
-  const zones = ['3', '2'].map(zone => {
-    const sample = snapshot(zone), latest = latestPremium(zone);
-    return `<section class="panel"><h3>북아현${zone}구역 · 프리미엄 P</h3><div class="stats3">
-      <div class="metric"><small>표본 최저 P</small><strong>${money(sample.min)}</strong></div>
-      <div class="metric accent"><small>평균 P</small><strong>${money(latest.value)}</strong></div>
-      <div class="metric"><small>표본 최대 P</small><strong>${money(sample.max)}</strong></div></div>
-      <div class="compare">${changeHtml(zone)}<span>평균 최근 기록 ${esc(latest.date)} · 최저·최대 표본 ${esc(PREMIUM_BASE_DATE)} · ${sample.count}건</span></div>
-      <div class="detail-trend"><h4>평균 P 기록 추이</h4>${trendChart(zone)}</div>
-      <p class="price-note">평형과 권리관계가 서로 다른 매물의 혼합 표본입니다.</p>${link(DATA.price[zone].url, '네이버 부동산 매물 보기')}</section>`;
-  }).join('');
-  return zones + `<section class="panel"><h3>주변 아파트 실거래 · 전용 84㎡대</h3>${DATA.near.map(item =>
-    `<div class="resultrow"><div>${esc(item.name)}</div><strong>${money(item.price)}</strong><p class="blurb">${esc(item.size)} · 계약 ${esc(item.date)} · ${esc(item.floor)} · ${item.name.includes('라첼스') ? '입주권 여부 별도 확인' : '매매 실거래'}</p>${link(item.url, '실거래 출처')}</div>`).join('')}
-    <p class="price-note">경희궁자이와 마포래미안푸르지오는 각각 2단지 기준입니다. 라첼스는 분양권·입주권 여부를 확인해야 하며, 공식 국토교통부 자료와 계약해제 여부 재확인이 필요합니다.</p></section>`;
-}
+function detailTrendChart(z,compact=false){let series=premiumHistory(z),w=510,h=compact?112:184,pad=compact?14:23,chartH=h-2*pad;let vals=series.map(x=>x.value);let lo=Math.min(...vals)-.5,hi=Math.max(...vals)+.5,span=hi-lo;const xx=i=>series.length===1?w/2:pad+i*(w-2*pad)/(series.length-1);const yy=v=>h-pad-((v-lo)/span)*chartH;const points=series.map((x,i)=>`${xx(i).toFixed(1)},${yy(x.value).toFixed(1)}`).join(' ');let grid=[0.25,.5,.75].map(t=>`<line x1="${pad}" y1="${(pad+chartH*t).toFixed(0)}" x2="${w-pad}" y2="${(pad+chartH*t).toFixed(0)}" stroke="#e5eee7" stroke-dasharray="4 5"/>`).join('');let dots=series.map((x,i)=>`<circle cx="${xx(i)}" cy="${yy(x.value)}" r="${compact?5:6}" fill="#fff" stroke="#187655" stroke-width="3"/>`).join('');return `<div class="trend-wrap"><svg class="trend-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${z}구역 프리미엄 기록 추이, ${series.length}개 시점">${grid}${series.length>1?`<polyline points="${points}" fill="none" stroke="#187655" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`:''}${dots}</svg><div class="trend-meta"><span>${series[0].date.slice(5).replace('-','/')}</span><span>${series.length>1?series.at(-1).date.slice(5).replace('-','/'):'최초 기록 1건'}</span></div>${series.length===1?'<div class="trend-empty">지난주 값이 없어 추세선은 아직 표시하지 않습니다.</div>':''}</div>`;}
+
+function priceDetail(){let rows=['3','2'].map(z=>{let s=snapshot(z),p=DATA.price[z],latest=latestPremium(z);return `<section class="panel"><h3>북아현${z}구역 · 매물 프리미엄(P)</h3><div class="stats3"><div class="metric"><small>최저 P (최초 자료)</small><strong>${money(s.min)}</strong></div><div class="metric accent"><small>평균 프리미엄</small><strong>${money(latest.value)}</strong></div><div class="metric"><small>최대 P (최초 자료)</small><strong>${money(s.max)}</strong></div></div><div class="compare">${changeHtml(z)} · 최근 기록일 ${latest.date}</div><div class="detail-trend"><h4>주간 평균 P 추이</h4>${detailTrendChart(z)}</div><p>${link(p.url,'네이버 부동산 매물 원문 ↗')}</p></section>`}).join('');let near=`<section class="panel"><h3>주변 아파트 최근 확인 실거래 · 전용 84㎡대</h3>${DATA.near.map(x=>`<div class="resultrow"><small>${esc(x.name)}</small><strong class="nearprice">${money(x.price)}</strong><div class="blurb">${esc(x.size)} · 계약 ${esc(x.date)} · ${esc(x.floor)} · ${x.name.includes('라첼스')?'입주권 여부 별도 확인':'매매 실거래'}</div>${link(x.url,'실거래 출처 ↗')}</div>`).join('')}<div class="footer">경희궁자이는 2단지, 마포래미안푸르지오는 2단지 기준입니다. 라첼스는 분양권/입주권 거래 가능성이 있어 기존 주택 매매와 동일 조건으로 비교하면 안 됩니다. 공식 국토교통부 자료와 계약해제 여부 재확인이 필요합니다.</div></section>`;return rows+near}
 
 const routes = {
   news: ['북아현·서대문 최근소식', newsDetail, 'news'],
