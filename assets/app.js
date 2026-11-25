@@ -216,20 +216,36 @@ document.addEventListener('click', event => {
     });
     $('newsItems').innerHTML = newsRows();
   }
-  const brief = event.target.closest('summary')?.parentElement;
-  if (brief?.matches('.chat-brief') && !brief.open) {
-    requestAnimationFrame(() => {
-      if (brief.isConnected && brief.open) {
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        window.scrollTo({ top: Math.max(0, brief.getBoundingClientRect().top + window.scrollY - 12), behavior: reduced ? 'instant' : 'smooth' });
-      }
-    });
-  }
 });
-$('detailContent').addEventListener('toggle', event => {
+const briefingContainer = $('detailContent');
+let briefingNavigation = 0;
+briefingContainer.addEventListener('click', event => {
+  const summary = event.target.closest('summary');
+  const brief = summary?.parentElement;
+  if (!brief?.matches('.chat-brief')) return;
+  event.preventDefault();
+  const shouldOpen = !brief.open;
+  const navigation = ++briefingNavigation;
+  // Finish collapsing the old content before calculating the new title position.
+  briefingContainer.querySelectorAll('.chat-brief[open]').forEach(other => {
+    if (other !== brief) other.open = false;
+  });
+  brief.open = shouldOpen;
+  if (!shouldOpen) return;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (navigation !== briefingNavigation || !brief.isConnected || !brief.open) return;
+    window.scrollTo({
+      top: Math.max(0, summary.getBoundingClientRect().top + window.scrollY - 12),
+      behavior: 'instant'
+    });
+  }));
+});
+briefingContainer.addEventListener('toggle', event => {
   const opened = event.target;
   if (!opened.matches?.('.chat-brief') || !opened.open) return;
-  $('detailContent').querySelectorAll('.chat-brief[open]').forEach(other => { if (other !== opened) other.open = false; });
+  briefingContainer.querySelectorAll('.chat-brief[open]').forEach(other => {
+    if (other !== opened) other.open = false;
+  });
 }, true);
 document.addEventListener('input', event => {
   if (event.target.id === 'nq') $('newsItems').innerHTML = newsRows();
