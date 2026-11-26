@@ -182,8 +182,7 @@ function authorCards(items){return items.map(b=>{
 function blogDetail(){return `<div class="filter"><input id="blogq" placeholder="블로거 이름·글 제목 검색" aria-label="블로그 검색"></div><div class="author-grid" id="authors">${authorCards(DATA.bloggers)}</div>`}
 
 function chatDetail() {
-  const chatLink='<div class="chat-action-bar"><a class="chat-open-link" href="https://open.kakao.com/o/puEhpZAi" target="_blank" rel="noopener noreferrer" aria-label="아현뚜방 카카오 오픈채팅방 바로가기">카톡방 바로가기 <span aria-hidden="true">↗</span></a></div>';
-  return chatLink + (newestFirst(CHAT_POSTS).map(post => `<details class="panel chat-brief">
+  return (newestFirst(CHAT_POSTS).map(post => `<details class="panel chat-brief">
     <summary>${badgeIfNew('chat', post.id)}${esc(post.title)}</summary><time class="chat-date">${esc(post.date)}</time>
     ${post.summary.split(/\n\n+/).map(block => {
       const [heading, ...body] = block.split('\n');
@@ -207,6 +206,8 @@ function renderRoute() {
   document.body.classList.toggle('view-home', !route);
   $('dashboard').hidden = Boolean(route);
   $('detail').hidden = !route;
+  $('detailChatLink').hidden = page !== 'chat';
+  $('detail').classList.toggle('chat-route', page === 'chat');
   if (route) {
     if (page === 'seoul') newsMode = '서울 정비사업';
     else if (page === 'news') newsMode = '전체';
