@@ -1,0 +1,393 @@
+{
+  "date": "2026-11-27",
+  "zone": "3",
+  "source": "Naver real estate",
+  "status": "success",
+  "scope": "partial",
+  "totalAdvertised": 42,
+  "inspectedCards": 40,
+  "values": [
+    12,
+    11.5,
+    11,
+    10.2,
+    10.4,
+    10.5,
+    11,
+    11,
+    10.9,
+    10.8,
+    12,
+    12,
+    11,
+    10.8,
+    11,
+    11.5,
+    10.4,
+    11,
+    12,
+    11.2,
+    10.4,
+    10.5,
+    12,
+    10.9,
+    10.5,
+    11.5,
+    11.2,
+    11.5,
+    12,
+    11,
+    10.5,
+    10.5
+  ],
+  "count": 32,
+  "min": 10.2,
+  "max": 12,
+  "average": 11.084375,
+  "limitation": "P가 명시된 공개 매물 표본. 묶음광고 2개는 개별 P 미확인으로 제외. 광고용 면적·주소가 일부 실제 물건과 달라 중복 제거에 한계가 있음. 확인 가능한 중복·상충 광고 제외.",
+  "records": [
+    {
+      "articleId": "2662914203",
+      "premium": 12,
+      "area": "대지193.4㎡ (연면적219.51)",
+      "floor": "-/2층",
+      "salePrice": "매매 14억",
+      "confirmationDate": "2026.11.19",
+      "url": "https://fin.land.naver.com/articles/2662914203"
+    },
+    {
+      "articleId": "2663305491",
+      "premium": 11.5,
+      "area": "대지47.12㎡",
+      "floor": "4/5층",
+      "salePrice": "매매 14억 4,700",
+      "confirmationDate": "2026.11.21",
+      "url": "https://fin.land.naver.com/articles/2663305491"
+    },
+    {
+      "articleId": "2663322719",
+      "premium": null,
+      "area": "대지645㎡",
+      "salePrice": "매매 11억",
+      "confirmationDate": "2026.11.21",
+      "url": "https://fin.land.naver.com/articles/2663322719",
+      "excluded": "P 금액 명시 없음"
+    },
+    {
+      "articleId": "2663138136",
+      "premium": 11,
+      "area": "대지173.6㎡ (연면적197.96)",
+      "floor": "2/2층",
+      "salePrice": "매매 12억 7,000",
+      "confirmationDate": "2026.11.20",
+      "url": "https://fin.land.naver.com/articles/2663138136"
+    },
+    {
+      "articleId": "2664236986",
+      "premium": null,
+      "area": "대지142㎡ (연면적111.22)",
+      "floor": "2/B1층",
+      "salePrice": "매매 15억 5,000",
+      "confirmationDate": "2026.11.26",
+      "url": "https://fin.land.naver.com/articles/2664236986",
+      "excluded": "P 금액 명시 없음"
+    },
+    {
+      "articleId": "2664107250",
+      "premium": 10.2,
+      "area": "대지532㎡",
+      "floor": "B1/3층",
+      "salePrice": "매매 10억 4,000",
+      "confirmationDate": "2026.11.25",
+      "url": "https://fin.land.naver.com/articles/2664107250"
+    },
+    {
+      "articleId": "2661887300",
+      "premium": 10.4,
+      "area": "대지324㎡",
+      "salePrice": "매매 12억",
+      "confirmationDate": "2026.11.14",
+      "url": "https://fin.land.naver.com/articles/2661887300"
+    },
+    {
+      "articleId": "2663928204",
+      "premium": 10.5,
+      "area": "대지364㎡",
+      "salePrice": "매매 13억",
+      "confirmationDate": "2026.11.24",
+      "url": "https://fin.land.naver.com/articles/2663928204"
+    },
+    {
+      "articleId": "2663928737",
+      "premium": 11,
+      "area": "대지51.72㎡",
+      "floor": "2/2층",
+      "salePrice": "매매 13억 2,000",
+      "confirmationDate": "2026.11.24",
+      "url": "https://fin.land.naver.com/articles/2663928737"
+    },
+    {
+      "articleId": "2659949052",
+      "premium": 11,
+      "area": "대지43.4㎡",
+      "salePrice": "매매 12억 7,500",
+      "confirmationDate": "2026.11.06",
+      "url": "https://fin.land.naver.com/articles/2659949052"
+    },
+    {
+      "articleId": "2662148412",
+      "premium": null,
+      "area": "대지32.39㎡",
+      "floor": "1/4층",
+      "salePrice": "매매 12억 7,000",
+      "confirmationDate": "2026.11.16",
+      "url": "https://fin.land.naver.com/articles/2662148412",
+      "excluded": "P 금액 명시 없음"
+    },
+    {
+      "articleId": "2661629552",
+      "premium": 10.9,
+      "area": "대지235.4㎡ (연면적415.87)",
+      "floor": "-/3층",
+      "salePrice": "매매 13억",
+      "confirmationDate": "2026.11.13",
+      "url": "https://fin.land.naver.com/articles/2661629552"
+    },
+    {
+      "articleId": "2661503186",
+      "premium": 10.8,
+      "area": "대지171.6㎡",
+      "salePrice": "매매 12억 9,000",
+      "confirmationDate": "2026.11.13",
+      "url": "https://fin.land.naver.com/articles/2661503186"
+    },
+    {
+      "articleId": "2661729915",
+      "premium": null,
+      "area": "대지37.2㎡ (연면적112.78)",
+      "salePrice": "매매 13억 8,000",
+      "confirmationDate": "2026.11.13",
+      "url": "https://fin.land.naver.com/articles/2661729915",
+      "excluded": "P 금액 명시 없음"
+    },
+    {
+      "articleId": "2661470009",
+      "premium": 11.5,
+      "area": "대지235.4㎡ (연면적415.87)",
+      "floor": "-/3층",
+      "salePrice": "매매 13억 1,000",
+      "confirmationDate": "2026.11.12",
+      "url": "https://fin.land.naver.com/articles/2661470009",
+      "excluded": "대지235.4㎡·연면적415.87㎡·3층·건물정보와 주변 거리 일치로 최신 광고2661629552만 반영"
+    },
+    {
+      "articleId": "2661466118",
+      "premium": 12,
+      "area": "대지178㎡ (연면적282.58)",
+      "floor": "3/-층",
+      "salePrice": "매매 25억 6,000",
+      "confirmationDate": "2026.11.12",
+      "url": "https://fin.land.naver.com/articles/2661466118"
+    },
+    {
+      "articleId": "2661465120",
+      "premium": 12,
+      "area": "대지73㎡ (연면적31.31)",
+      "floor": "1/-층",
+      "salePrice": "매매 14억 3,000",
+      "confirmationDate": "2026.11.12",
+      "url": "https://fin.land.naver.com/articles/2661465120"
+    },
+    {
+      "articleId": "2658665453",
+      "premium": 11,
+      "area": "대지51.5㎡",
+      "salePrice": "매매 13억 1,500",
+      "confirmationDate": "2026.10.30",
+      "url": "https://fin.land.naver.com/articles/2658665453"
+    },
+    {
+      "articleId": "2660443099",
+      "premium": 10.8,
+      "area": "대지40.71㎡ (연면적84.21)",
+      "floor": "B1/4층",
+      "salePrice": "매매 11억 5,000변동하락내역 보기",
+      "confirmationDate": "2026.11.09",
+      "url": "https://fin.land.naver.com/articles/2660443099"
+    },
+    {
+      "articleId": "2660656484",
+      "premium": 11,
+      "area": "대지277.33㎡ (연면적661.92)",
+      "floor": "2/5층",
+      "salePrice": "매매 12억 5,000",
+      "confirmationDate": "2026.11.09",
+      "url": "https://fin.land.naver.com/articles/2660656484"
+    },
+    {
+      "articleId": "2658125258",
+      "premium": 11.5,
+      "area": "대지234.32㎡ (연면적500.99)",
+      "floor": "3/3층",
+      "salePrice": "매매 16억 5,000",
+      "confirmationDate": "2026.10.28",
+      "url": "https://fin.land.naver.com/articles/2658125258"
+    },
+    {
+      "articleId": "2660232601",
+      "premium": 10.4,
+      "area": "대지63㎡",
+      "salePrice": "매매 12억",
+      "confirmationDate": "2026.11.07",
+      "url": "https://fin.land.naver.com/articles/2660232601"
+    },
+    {
+      "articleId": "2660228959",
+      "premium": 11,
+      "area": "대지70.4㎡",
+      "salePrice": "매매 11억 100",
+      "confirmationDate": "2026.11.07",
+      "url": "https://fin.land.naver.com/articles/2660228959"
+    },
+    {
+      "articleId": "2658855396",
+      "premium": 11,
+      "area": "대지73㎡",
+      "salePrice": "매매 14억",
+      "confirmationDate": "2026.10.31",
+      "url": "https://fin.land.naver.com/articles/2658855396",
+      "excluded": "제목 P11억과 본문 P11.6억 불일치 및 대지73㎡ 단독 중복 의심으로 제외"
+    },
+    {
+      "articleId": "2660200718",
+      "premium": 12,
+      "area": "대지47.13㎡",
+      "salePrice": "매매 15억",
+      "confirmationDate": "2026.11.06",
+      "url": "https://fin.land.naver.com/articles/2660200718"
+    },
+    {
+      "articleId": "2660204509",
+      "premium": 11.2,
+      "area": "대지60.75㎡",
+      "salePrice": "매매 13억 9,000",
+      "confirmationDate": "2026.11.06",
+      "url": "https://fin.land.naver.com/articles/2660204509"
+    },
+    {
+      "articleId": "2659406921",
+      "premium": 10.4,
+      "area": "대지179.8㎡",
+      "floor": "2/4층",
+      "salePrice": "매매 12억",
+      "confirmationDate": "2026.11.03",
+      "url": "https://fin.land.naver.com/articles/2659406921"
+    },
+    {
+      "articleId": "2658719864",
+      "premium": 10.5,
+      "area": "대지210㎡",
+      "salePrice": "매매 13억 500",
+      "confirmationDate": "2026.10.30",
+      "url": "https://fin.land.naver.com/articles/2658719864"
+    },
+    {
+      "articleId": "2661577165",
+      "premium": null,
+      "area": "대지57㎡ (연면적48.89)",
+      "salePrice": "매매 12억",
+      "confirmationDate": "2026.11.13",
+      "url": "https://fin.land.naver.com/articles/2661577165",
+      "excluded": "P 금액 명시 없음"
+    },
+    {
+      "articleId": "2661722717",
+      "premium": 12,
+      "area": "대지30㎡ (연면적30)",
+      "salePrice": "매매 15억 1,000",
+      "confirmationDate": "2026.11.13",
+      "url": "https://fin.land.naver.com/articles/2661722717"
+    },
+    {
+      "articleId": "2661720539",
+      "premium": 10.9,
+      "area": "대지40㎡ (연면적40)",
+      "salePrice": "매매 14억",
+      "confirmationDate": "2026.11.13",
+      "url": "https://fin.land.naver.com/articles/2661720539"
+    },
+    {
+      "articleId": "2661365572",
+      "premium": 10.5,
+      "area": "대지273㎡ (연면적83)",
+      "salePrice": "매매 10억 7,000변동상승내역 보기",
+      "confirmationDate": "2026.11.12",
+      "url": "https://fin.land.naver.com/articles/2661365572"
+    },
+    {
+      "articleId": "2660728047",
+      "premium": 11.5,
+      "area": "대지20㎡ (연면적20)",
+      "salePrice": "매매 14억변동상승내역 보기",
+      "confirmationDate": "2026.11.09",
+      "url": "https://fin.land.naver.com/articles/2660728047"
+    },
+    {
+      "articleId": "2660720697",
+      "premium": 11.2,
+      "area": "대지30㎡ (연면적30)",
+      "salePrice": "매매 14억 4,000",
+      "confirmationDate": "2026.11.09",
+      "url": "https://fin.land.naver.com/articles/2660720697"
+    },
+    {
+      "articleId": "2660726318",
+      "premium": 11.5,
+      "area": "대지181㎡ (연면적10)",
+      "salePrice": "매매 17억 8,000",
+      "confirmationDate": "2026.11.09",
+      "url": "https://fin.land.naver.com/articles/2660726318"
+    },
+    {
+      "articleId": "2660720071",
+      "premium": 12,
+      "area": "대지40㎡ (연면적40)",
+      "salePrice": "매매 15억 3,000",
+      "confirmationDate": "2026.11.09",
+      "url": "https://fin.land.naver.com/articles/2660720071"
+    },
+    {
+      "articleId": "2660220609",
+      "premium": 11,
+      "area": "대지20㎡ (연면적20)",
+      "salePrice": "매매 18억 6,000",
+      "confirmationDate": "2026.11.06",
+      "url": "https://fin.land.naver.com/articles/2660220609"
+    },
+    {
+      "articleId": "2659938630",
+      "premium": 10.5,
+      "area": "대지1㎡ (연면적30)",
+      "salePrice": "매매 10억 6,600",
+      "confirmationDate": "2026.11.05",
+      "url": "https://fin.land.naver.com/articles/2659938630"
+    },
+    {
+      "articleId": "2658881228",
+      "premium": 10.5,
+      "area": "대지152㎡ (연면적342.72)",
+      "salePrice": "매매 10억 6,000",
+      "confirmationDate": "2026.10.31",
+      "url": "https://fin.land.naver.com/articles/2658881228"
+    },
+    {
+      "articleId": "2658880061",
+      "premium": null,
+      "area": "대지33.1㎡ (연면적81)",
+      "salePrice": "매매 12억 7,000",
+      "confirmationDate": "2026.10.31",
+      "url": "https://fin.land.naver.com/articles/2658880061",
+      "excluded": "P 금액 명시 없음"
+    }
+  ]
+}
