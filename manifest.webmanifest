@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "북아현3구역 브리핑",
+  "short_name": "북아현3 브리핑",
+  "lang": "ko",
+  "description": "북아현3구역 재개발 소식과 시세 대시보드",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f7f3",
+  "theme_color": "#174a3c",
+  "icons": [
+    {
+      "src": "assets/pwa/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/pwa/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
