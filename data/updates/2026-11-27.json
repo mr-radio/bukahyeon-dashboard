@@ -57,6 +57,19 @@
   "verification": {
     "indexCommit": "7c1fdf88edc32f17bb8caa72892b8f46578b6e47",
     "appCommit": "4c6628ab0cc21b54077896080b9bf5a3233b4327",
-    "publicDeployment": "pending_check"
+    "publicDeployment": "verified",
+    "verifiedDateKST": "2026-11-27",
+    "deploymentRun": "https://github.com/mr-radio/bukahyeon-dashboard/actions/runs/45898472734",
+    "deploymentConclusion": "success",
+    "publicChecks": {
+      "premiumBaseDate": "2026-11-27",
+      "district3Sample": 32,
+      "district2Sample": 29,
+      "homeTiles": 4,
+      "javascriptConsoleErrors": 0,
+      "newsUrlsUnique": true,
+      "articlesAfterCutoff": false
+    },
+    "publicUrl": "https://mr-radio.github.io/bukahyeon-dashboard/"
   }
 }
