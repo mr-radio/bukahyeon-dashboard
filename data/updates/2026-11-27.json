@@ -21,12 +21,24 @@
     "status": "updated"
   },
   "chat": {
-    "status": "blocked_source_stale",
+    "status": "updated",
     "requestedDate": "2026-11-26",
-    "preservedLatestBriefing": "2026-11-25",
-    "primaryError": "Path is outside JEOPSOK_ALLOWED_ROOTS",
-    "fallbackLatestMessage": "2026-11-25T06:04:00+09:00",
-    "action": "26일 전체 대화 원문 미확보로 새 요약을 생성하지 않음"
+    "added": 1,
+    "latestBriefing": "2026-11-26",
+    "source": "User-uploaded KakaoTalkChats.txt",
+    "exportedAt": "2026-11-27T06:11:00+09:00",
+    "sourceRange": {
+      "start": "2026-11-26T06:24:00+09:00",
+      "end": "2026-11-26T23:38:00+09:00"
+    },
+    "sourceDayCharacters": 54269,
+    "sourceMessages": 899,
+    "summaryCharacters": 4445,
+    "topics": 12,
+    "audit": "data/chat/2026-11-26.json",
+    "rawSourcePublished": false,
+    "resolvedBlocker": "Device path outside JEOPSOK_ALLOWED_ROOTS; complete user-uploaded export used instead",
+    "sourceSha256": "f4407a7f0b9c4b1652d2c8afc5b53edf81726526eca3765eaf21d4bc38f58a6f"
   },
   "near": {
     "status": "rechecked_existing_sources",
@@ -68,8 +80,15 @@
       "homeTiles": 4,
       "javascriptConsoleErrors": 0,
       "newsUrlsUnique": true,
-      "articlesAfterCutoff": false
+      "articlesAfterCutoff": false,
+      "chatDate": "2026-11-26",
+      "chatCanonicalJsonMatches": true,
+      "chatInitiallyCollapsed": true,
+      "chatNewBadge": true
     },
-    "publicUrl": "https://mr-radio.github.io/bukahyeon-dashboard/"
+    "publicUrl": "https://mr-radio.github.io/bukahyeon-dashboard/",
+    "chatIndexCommit": "3cc3834df31ec17ff71fe83eee31f8a156e73711",
+    "chatDeploymentRun": "https://github.com/mr-radio/bukahyeon-dashboard/actions/runs/45899981528",
+    "chatDeploymentConclusion": "success"
   }
 }
