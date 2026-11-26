@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-27",
+  "timezone": "Asia/Seoul",
+  "contentCutoff": "2026-11-26T23:59:59+09:00",
+  "news": {
+    "added": 9,
+    "status": "updated",
+    "sourceScope": "Naver news, blogs, public cafes",
+    "unverifiedExcluded": true
+  },
+  "blogs": {
+    "added": 5,
+    "directlyChecked": 6,
+    "status": "updated",
+    "excludedAfterCutoff": [
+      "philipcommunications/224493866988"
+    ]
+  },
+  "seoul": {
+    "added": 3,
+    "status": "updated"
+  },
+  "chat": {
+    "status": "blocked_source_stale",
+    "requestedDate": "2026-11-26",
+    "preservedLatestBriefing": "2026-11-25",
+    "primaryError": "Path is outside JEOPSOK_ALLOWED_ROOTS",
+    "fallbackLatestMessage": "2026-11-25T06:04:00+09:00",
+    "action": "26일 전체 대화 원문 미확보로 새 요약을 생성하지 않음"
+  },
+  "near": {
+    "status": "rechecked_existing_sources",
+    "newConfirmedContracts": 0,
+    "pricesChanged": false,
+    "limitation": "공개 출처 집계와 신고·해제 반영 시차 존재; 라첼스 출처 집계기준 2026-11-25"
+  },
+  "premium": {
+    "2": {
+      "status": "success",
+      "scope": "partial",
+      "count": 29,
+      "average": 14.506013793103447,
+      "min": 12.5,
+      "max": 17,
+      "audit": "data/premium/2026-11-27-2.json"
+    },
+    "3": {
+      "status": "success",
+      "scope": "partial",
+      "count": 32,
+      "average": 11.084375,
+      "min": 10.2,
+      "max": 12,
+      "audit": "data/premium/2026-11-27-3.json"
+    }
+  },
+  "verification": {
+    "indexCommit": "7c1fdf88edc32f17bb8caa72892b8f46578b6e47",
+    "appCommit": "4c6628ab0cc21b54077896080b9bf5a3233b4327",
+    "publicDeployment": "pending_check"
+  }
+}
