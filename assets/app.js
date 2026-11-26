@@ -182,12 +182,13 @@ function authorCards(items){return items.map(b=>{
 function blogDetail(){return `<div class="filter"><input id="blogq" placeholder="블로거 이름·글 제목 검색" aria-label="블로그 검색"></div><div class="author-grid" id="authors">${authorCards(DATA.bloggers)}</div>`}
 
 function chatDetail() {
-  return newestFirst(CHAT_POSTS).map(post => `<details class="panel chat-brief">
+  const chatLink='<div class="chat-action-bar"><a class="chat-open-link" href="https://open.kakao.com/o/puEhpZAi" target="_blank" rel="noopener noreferrer" aria-label="아현뚜방 카카오 오픈채팅방 바로가기">카톡방 바로가기 <span aria-hidden="true">↗</span></a></div>';
+  return chatLink + (newestFirst(CHAT_POSTS).map(post => `<details class="panel chat-brief">
     <summary>${badgeIfNew('chat', post.id)}${esc(post.title)}</summary><time class="chat-date">${esc(post.date)}</time>
     ${post.summary.split(/\n\n+/).map(block => {
       const [heading, ...body] = block.split('\n');
       return `<section class="brief-section ${/주요 공지 및 운영진 답변|운영진 직접 답변/.test(heading) ? 'response' : ''}"><h4>${esc(heading)}</h4><p>${linkedText(body.join('\n'))}</p></section>`;
-    }).join('')}</details>`).join('') || '<p class="empty">등록된 톡방 요약이 없습니다.</p>';
+    }).join('')}</details>`).join('') || '<p class="empty">등록된 톡방 요약이 없습니다.</p>');
 }
 function detailTrendChart(z){return '<div class="trend-wrap">'+trendChart(z,false)+'</div>';}
 
