@@ -127,7 +127,28 @@
     "dataConsistency": "passed",
     "javascriptSyntax": "passed",
     "homeTiles": 4,
-    "publicDeployment": "pending_final_check",
-    "publicUrl": "https://mr-radio.github.io/bukahyeon-dashboard/"
+    "publicDeployment": "verified",
+    "publicUrl": "https://mr-radio.github.io/bukahyeon-dashboard/",
+    "savedIndexSha": "1c67394bb1c1c61a56d3ce666f8a43130c535a2e",
+    "chatCanonicalJsonMatches": true,
+    "publicChecks": {
+      "premiumDate": "2026-11-28",
+      "district3Sample": 21,
+      "district2Sample": 18,
+      "nearTradeDate": "2026-11-10",
+      "nearTradeType": "분양권",
+      "homeTiles": 4,
+      "chatInitiallyCollapsed": true,
+      "chatHighlightsVisible": true,
+      "autoCollapse": true,
+      "homeReturn": true,
+      "blogsLatestFive": true,
+      "blogNewPostVisible": true,
+      "seoulFilter": true,
+      "newsNewEntriesVisible": true,
+      "kakaoLink": true
+    },
+    "deploymentRun": "https://github.com/mr-radio/bukahyeon-dashboard/actions/runs/46080927341",
+    "verifiedAtKST": "2026-11-28T08:15:00+09:00"
   }
 }
