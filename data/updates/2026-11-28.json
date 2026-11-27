@@ -1,0 +1,133 @@
+{
+  "date": "2026-11-28",
+  "timezone": "Asia/Seoul",
+  "contentCutoff": "2026-11-28T08:00:00+09:00",
+  "chatCutoff": "2026-11-27T23:59:59+09:00",
+  "news": {
+    "added": 8,
+    "status": "updated_partial_collection",
+    "collectionComplete": false,
+    "sources": [
+      "https://m.blog.naver.com/45tpqordjr/224495184499",
+      "https://m.blog.naver.com/joyland7499/224495024661",
+      "https://m.blog.naver.com/mr-radio/224494825417",
+      "https://m.blog.naver.com/zip_report/224493632109",
+      "https://m.blog.naver.com/manksw/224494613476",
+      "https://m.blog.naver.com/ahyeonddu/224494229201",
+      "https://m.blog.naver.com/limg03/224494864160",
+      "https://n.news.naver.com/mnews/article/014/0005609753"
+    ],
+    "limitation": "네이버 최신순·관련도순 확인. 일부 검색에서 페이지/세부 키워드가 동일 결과로 수렴하고 카페 원문은 본문이 로드되지 않아 해당 후보 제외. 조사 완료·신규 0건으로 처리하지 않음.",
+    "unverifiedExcluded": true,
+    "resume": "미등록 카페 hansuri2250/8370의 공개 본문 확보 및 세부 검색어·이전 등록일 경계까지 추가 확인"
+  },
+  "blogs": {
+    "added": 1,
+    "directlyChecked": 6,
+    "status": "updated",
+    "collectionComplete": true,
+    "scopes": {
+      "ahyeonddu": "all",
+      "philipcommunications": 47,
+      "yoonyoung17": 38,
+      "miryeo2032": "all",
+      "heros0694": "all",
+      "joyland7499": "all"
+    },
+    "newUrls": [
+      "https://m.blog.naver.com/joyland7499/224495024661"
+    ]
+  },
+  "seoul": {
+    "added": 5,
+    "status": "updated",
+    "latestArticle": "2026-11-28T07:01:00+09:00",
+    "sources": [
+      "https://n.news.naver.com/mnews/article/003/0014350374",
+      "https://n.news.naver.com/mnews/article/243/0000106408",
+      "https://n.news.naver.com/mnews/article/015/0005359268",
+      "https://n.news.naver.com/mnews/article/018/0006416746",
+      "https://n.news.naver.com/mnews/article/014/0005610923"
+    ]
+  },
+  "chat": {
+    "status": "updated",
+    "added": 1,
+    "latestBriefing": "2026-11-27",
+    "source": "Device KakaoTalk export",
+    "exportedAt": "2026-11-28T07:54:00+09:00",
+    "sourceFileModifiedAt": "2026-11-28T07:54:53+09:00",
+    "sourceLastMessage": "2026-11-27T22:41:00+09:00",
+    "sourceRange": {
+      "start": "2026-11-27T07:08:00+09:00",
+      "end": "2026-11-27T22:41:00+09:00"
+    },
+    "sourceDayCharacters": 61486,
+    "sourceMessages": 1044,
+    "readChunks": 9,
+    "summaryCharacters": 5007,
+    "topics": 12,
+    "leadingHighlights": 5,
+    "audit": "data/chat/2026-11-27.json",
+    "rawSourcePublished": false
+  },
+  "near": {
+    "status": "updated",
+    "newConfirmedContracts": 1,
+    "rechecked": 3,
+    "newContract": {
+      "name": "마포자이힐스테이트 라첼스",
+      "contractDate": "2026-11-10",
+      "amount": 30,
+      "area": "84.99㎡",
+      "floor": 15,
+      "tradeType": "분양권",
+      "source": "https://www.jipgam.kr/seoul/apt/fa41af0bed4d.html",
+      "sourceAsOf": "2026-11-27"
+    },
+    "limitations": "공개 집계 출처의 신고·해제 반영 시차 존재. 경희궁자이·마래푸는 기존 등록 단지(2단지) 재확인."
+  },
+  "premium": {
+    "2": {
+      "status": "success",
+      "scope": "partial",
+      "collectionComplete": false,
+      "count": 18,
+      "min": 12.5,
+      "max": 16.48,
+      "average": 13.904444444444444,
+      "totalAdvertised": 46,
+      "audit": "data/premium/2026-11-28-2.json",
+      "limitation": "공개 목록 첫 30개 카드 중 P 명시·중복 의심 제외 표본. 미로드 매물·중개사 묶음 매물은 집계하지 않음.",
+      "resume": "미로드 나머지 매물과 중개사 묶음 펼침 후 개별 설명·동일물건 검증"
+    },
+    "3": {
+      "status": "success",
+      "scope": "partial",
+      "collectionComplete": false,
+      "count": 21,
+      "min": 10.4,
+      "max": 12,
+      "average": 11.080952380952382,
+      "totalAdvertised": 43,
+      "audit": "data/premium/2026-11-28-3.json",
+      "limitation": "공개 목록 첫 30개 카드 중 P 명시·중복 의심 제외 표본. 미로드 매물·중개사 묶음 매물은 집계하지 않음.",
+      "resume": "미로드 나머지 매물과 중개사 묶음 펼침 후 개별 설명·동일물건 검증"
+    }
+  },
+  "savedFiles": [
+    "index.html",
+    "assets/app.js",
+    "data/chat/2026-11-27.json",
+    "data/premium/2026-11-28-3.json",
+    "data/premium/2026-11-28-2.json",
+    "data/updates/2026-11-28.json"
+  ],
+  "verification": {
+    "dataConsistency": "passed",
+    "javascriptSyntax": "passed",
+    "homeTiles": 4,
+    "publicDeployment": "pending_final_check",
+    "publicUrl": "https://mr-radio.github.io/bukahyeon-dashboard/"
+  }
+}
