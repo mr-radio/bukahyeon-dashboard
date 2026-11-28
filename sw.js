@@ -1,7 +1,7 @@
 'use strict';
-const CACHE='bukahyeon-dashboard-pwa-v1';
+const CACHE='bukahyeon-dashboard-pwa-v2';
 const ROOT=new URL('./',self.location.href);
-const assets=['./','./assets/styles.css?v=20261125-visits-small','./assets/app.js?v=20261126-2','./assets/pwa/pwa.css','./assets/pwa/pwa.js','./assets/pwa/qr.svg','./assets/pwa/icon-192.png','./assets/pwa/icon-512.png','./manifest.webmanifest'];
+const assets=['./','./assets/styles.css?v=20261128-chat-share','./assets/app.js?v=20261128-chat-share','./assets/pwa/pwa.css','./assets/pwa/pwa.js','./assets/pwa/qr.svg','./assets/pwa/icon-192.png','./assets/pwa/icon-512.png','./manifest.webmanifest'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{const c=await caches.open(CACHE);await c.addAll(assets.map(p=>new Request(new URL(p,ROOT),{cache:'reload'})));await self.skipWaiting()})()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('bukahyeon-dashboard-pwa-')&&key!==CACHE)await caches.delete(key);await self.clients.claim()})()));
 self.addEventListener('fetch',event=>{
