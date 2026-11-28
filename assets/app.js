@@ -201,24 +201,55 @@ function chatDayDetail(date) {
   if (!post) return '<p class="panel">해당 날짜의 브리핑이 없습니다.</p>'+nav;
   return `<article class="panel chat-brief chat-day"><div class="chat-day-heading"><div><time class="chat-date" datetime="${esc(post.date)}">${esc(post.date.replaceAll('-', '.'))}</time><h3>${esc(post.title)}</h3></div>${chatShareButton(post)}</div>${chatBody(post)}</article>${nav}`;
 }
-function shareChatDay(date) {
+// Keep these previews grounded in the published briefing, including future dates.
+function chatSharePoints(post) {
+  const lines = post.summary.split('\n');
+  return (lines[0].trim() === '주요사항'
+    ? lines.filter(line => /^\s*[•·\-]\s+/.test(line)).map(line => line.replace(/^\s*[•·\-]\s+/, ''))
+    : lines.filter(line => /^\d+\.\s/.test(line)).map(line => line.replace(/^\d+\.\s*/, ''))).slice(0,3);
+}
+async function shareChatDay(date) {
   const post = CHAT_POSTS.find(item => item.date === date);
   if (!post) return;
-  const url = new URL('./', location.href);
-  url.hash = 'chat/'+post.date;
+  const root = new URL('./', location.href);
+  const fallback = new URL(root.href); fallback.hash = 'chat/'+post.date;
+  const preview = new URL('briefing/'+post.date+'.html', root);
+  const title = '아현뚜방 브리핑 · '+post.date;
+  const points = chatSharePoints(post);
+  const message = title+'\n'+post.title.replace(/^.*?·\s*/, '')+'\n\n'+points.map(p => '• '+p).join('\n');
   const dialog = $('pwaDialog'), body = $('pwaBody'), status = $('pwaStatus');
   $('pwaTitle').textContent = post.date+' 브리핑 공유';
-  status.textContent = '';
-  body.innerHTML = '<p>이 날짜의 브리핑만 열리는 주소입니다.</p><input class="pwa-link" id="chatShareUrl" readonly aria-label="날짜별 브리핑 공유 주소" value="'+esc(url.href)+'"><div class="pwa-buttons"><button type="button" id="chatShareCopy">주소 복사</button>'+(navigator.share?'<button type="button" id="chatShareNative">카카오톡 등 공유</button>':'')+'</div>';
-  $('chatShareCopy').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(url.href); status.textContent = '주소를 복사했습니다.'; }
-    catch { const field = $('chatShareUrl'); field.focus(); field.select(); status.textContent = '선택된 주소를 직접 복사해 주세요.'; }
-  });
-  $('chatShareNative')?.addEventListener('click', async () => {
-    try { await navigator.share({title:'아현뚜방 브리핑 · '+post.date, url:url.href}); }
-    catch(error) { if (error.name !== 'AbortError') status.textContent = '주소 복사로 공유해 주세요.'; }
-  });
+  status.textContent = '공유 주소 확인 중';
+  body.innerHTML = '<p>해당 날짜의 주요 내용과 주소를 공유합니다.</p><p style="white-space:pre-line;font-size:13px">'+esc(message)+'</p><input class="pwa-link" id="chatShareUrl" readonly aria-label="날짜별 브리핑 공유 주소" value="'+esc(fallback.href)+'"><div class="pwa-buttons"><button type="button" id="chatShareCopy" disabled>주소 복사</button><button type="button" id="chatShareText" disabled>내용+주소 복사</button>'+(navigator.share?'<button type="button" id="chatShareNative" disabled>카카오톡 등 공유</button>':'')+'</div>';
   if (!dialog.open) dialog.showModal();
+  const field = $('chatShareUrl');
+  let url = fallback.href;
+  try {
+    const available = await Promise.race([fetch(preview.href, {method:'HEAD',cache:'no-cache'}).then(r => r.ok), new Promise(resolve => setTimeout(()=>resolve(false),1800))]);
+    if (available) url = preview.href;
+  } catch {}
+  if (!field.isConnected || $('chatShareUrl') !== field) return;
+  field.value = url;
+  status.textContent = '';
+  const copy = async (value) => {
+    try { await navigator.clipboard.writeText(value); status.textContent = '복사했습니다.'; }
+    catch {
+      if(value === url){field.focus();field.select();}
+      else {const area=document.createElement('textarea');area.className='pwa-link';area.readOnly=true;area.value=value;area.rows=8;body.prepend(area);area.focus();area.select();}
+      status.textContent = '선택된 내용을 직접 복사해 주세요.';
+    }
+  };
+  const copyButton = $('chatShareCopy'), textButton = $('chatShareText'), nativeButton = $('chatShareNative');
+  copyButton.disabled = false; textButton.disabled = false;
+  copyButton.addEventListener('click', ()=>copy(url));
+  textButton.addEventListener('click', ()=>copy(message+'\n\n'+url));
+  if (nativeButton) {
+    nativeButton.disabled = false;
+    nativeButton.addEventListener('click', async () => {
+      try { await navigator.share({text:message,url}); }
+      catch(error) { if (error.name !== 'AbortError') status.textContent = '내용+주소 복사로 공유해 주세요.'; }
+    });
+  }
 }
 function detailTrendChart(z){return '<div class="trend-wrap">'+trendChart(z,false)+'</div>';}
 
