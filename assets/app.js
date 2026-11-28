@@ -220,7 +220,7 @@ async function shareChatDay(date) {
   const dialog = $('pwaDialog'), body = $('pwaBody'), status = $('pwaStatus');
   $('pwaTitle').textContent = post.date+' 브리핑 공유';
   status.textContent = '공유 주소 확인 중';
-  body.innerHTML = '<p>해당 날짜의 주요 내용과 주소를 공유합니다.</p><p style="white-space:pre-line;font-size:13px">'+esc(message)+'</p><input class="pwa-link" id="chatShareUrl" readonly aria-label="날짜별 브리핑 공유 주소" value="'+esc(fallback.href)+'"><div class="pwa-buttons"><button type="button" id="chatShareCopy" disabled>주소 복사</button><button type="button" id="chatShareText" disabled>내용+주소 복사</button>'+(navigator.share?'<button type="button" id="chatShareNative" disabled>카카오톡 등 공유</button>':'')+'</div>';
+  body.innerHTML = '<p>해당 날짜의 주요 내용과 주소를 공유합니다.</p><p style="white-space:pre-line;font-size:13px">'+esc(message)+'</p><input class="pwa-link" id="chatShareUrl" readonly aria-label="날짜별 브리핑 공유 주소" value="'+esc(fallback.href)+'"><div class="pwa-buttons"><button type="button" id="chatShareText" disabled>주소 복사</button>'+(navigator.share?'<button type="button" id="chatShareNative" disabled style="display:inline-flex;align-items:center;justify-content:center;gap:6px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="12" fill="#FEE500"/><path d="M12 5.8c-4.3 0-7.8 2.6-7.8 5.9 0 2.15 1.46 4.03 3.63 5.07L7 19.5l3.43-2.08c.51.08 1.03.12 1.57.12 4.3 0 7.8-2.6 7.8-5.84S16.3 5.8 12 5.8Z" fill="#3C1E1E"/></svg>카카오톡 등 공유</button>':'')+'</div>';
   if (!dialog.open) dialog.showModal();
   const field = $('chatShareUrl');
   let url = fallback.href;
@@ -239,15 +239,14 @@ async function shareChatDay(date) {
       status.textContent = '선택된 내용을 직접 복사해 주세요.';
     }
   };
-  const copyButton = $('chatShareCopy'), textButton = $('chatShareText'), nativeButton = $('chatShareNative');
-  copyButton.disabled = false; textButton.disabled = false;
-  copyButton.addEventListener('click', ()=>copy(url));
+  const textButton = $('chatShareText'), nativeButton = $('chatShareNative');
+  textButton.disabled = false;
   textButton.addEventListener('click', ()=>copy(message+'\n\n'+url));
   if (nativeButton) {
     nativeButton.disabled = false;
     nativeButton.addEventListener('click', async () => {
       try { await navigator.share({text:message,url}); }
-      catch(error) { if (error.name !== 'AbortError') status.textContent = '내용+주소 복사로 공유해 주세요.'; }
+      catch(error) { if (error.name !== 'AbortError') status.textContent = '주소 복사로 공유해 주세요.'; }
     });
   }
 }
