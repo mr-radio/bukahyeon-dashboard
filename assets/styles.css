@@ -278,3 +278,14 @@ body.view-home .wrap {height: 100svh; min-height: 0;}
  .detail .detail-chat-link{font-size:9px}
  .detail .detail-chat-link .kakao-chat-icon{width:21px;height:21px}
 }
+
+/* Date-specific briefing sharing: keep the existing summary and accordion layout. */
+.detail .chat-share-row{position:relative;min-width:0}
+.detail .chat-share-row>.chat-brief>summary{padding-right:36px}
+.detail .chat-share-button{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;border:0;border-radius:8px;background:transparent;color:#174a3c;cursor:pointer;flex:0 0 auto}
+.detail .chat-share-row>.chat-share-button{position:absolute;right:10px;top:7px}
+.detail .chat-share-button:hover,.detail .chat-share-button:focus-visible{background:#e7f1eb}
+.detail .chat-day-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;border-bottom:1px solid var(--b);padding-bottom:12px}
+.detail .chat-day-heading h3{margin:5px 0 0;line-height:1.5}
+.detail .chat-day-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:16px 0}
+.detail .chat-day-nav a,.detail .chat-day-nav button{border:1px solid var(--b);border-radius:9px;background:white;color:#174a3c;padding:9px 12px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
