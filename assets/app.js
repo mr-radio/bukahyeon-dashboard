@@ -181,13 +181,44 @@ function authorCards(items){return items.map(b=>{
 
 function blogDetail(){return `<div class="filter"><input id="blogq" placeholder="블로거 이름·글 제목 검색" aria-label="블로그 검색"></div><div class="author-grid" id="authors">${authorCards(DATA.bloggers)}</div>`}
 
+// Date-specific share URLs reuse the existing published briefing data.
+const chatShareIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4m-6.8 7 6.8 4"/></svg>';
+const chatShareButton = post => '<button type="button" class="chat-share-button" data-chat-share="'+esc(post.date)+'" title="'+esc(post.date+' 브리핑 공유')+'" aria-label="'+esc(post.date+' 브리핑 공유')+'">'+chatShareIcon+'</button>';
+function chatBody(post) {
+  return post.summary.split(/\n\n+/).map(block => {
+    const [heading, ...body] = block.split('\n');
+    return `<section class="brief-section ${/주요 공지 및 운영진 답변|운영진 직접 답변/.test(heading) ? 'response' : ''}"><h4>${esc(heading)}</h4><p>${linkedText(body.join('\n'))}</p></section>`;
+  }).join('');
+}
 function chatDetail() {
-  return (newestFirst(CHAT_POSTS).map(post => `<details class="panel chat-brief">
+  return newestFirst(CHAT_POSTS).map(post => `<div class="chat-share-row"><details class="panel chat-brief">
     <summary>${badgeIfNew('chat', post.id)}${esc(post.title)}</summary><time class="chat-date">${esc(post.date)}</time>
-    ${post.summary.split(/\n\n+/).map(block => {
-      const [heading, ...body] = block.split('\n');
-      return `<section class="brief-section ${/주요 공지 및 운영진 답변|운영진 직접 답변/.test(heading) ? 'response' : ''}"><h4>${esc(heading)}</h4><p>${linkedText(body.join('\n'))}</p></section>`;
-    }).join('')}</details>`).join('') || '<p class="empty">등록된 톡방 요약이 없습니다.</p>');
+    ${chatBody(post)}</details>${chatShareButton(post)}</div>`).join('') || '<p class="empty">등록된 톡방 요약이 없습니다.</p>';
+}
+function chatDayDetail(date) {
+  const post = CHAT_POSTS.find(item => item.date === date);
+  const nav = '<div class="chat-day-nav"><a href="#chat">다른 날짜 보기</a><button type="button" data-page="home">전체 대시보드 보기</button></div>';
+  if (!post) return '<p class="panel">해당 날짜의 브리핑이 없습니다.</p>'+nav;
+  return `<article class="panel chat-brief chat-day"><div class="chat-day-heading"><div><time class="chat-date" datetime="${esc(post.date)}">${esc(post.date.replaceAll('-', '.'))}</time><h3>${esc(post.title)}</h3></div>${chatShareButton(post)}</div>${chatBody(post)}</article>${nav}`;
+}
+function shareChatDay(date) {
+  const post = CHAT_POSTS.find(item => item.date === date);
+  if (!post) return;
+  const url = new URL('./', location.href);
+  url.hash = 'chat/'+post.date;
+  const dialog = $('pwaDialog'), body = $('pwaBody'), status = $('pwaStatus');
+  $('pwaTitle').textContent = post.date+' 브리핑 공유';
+  status.textContent = '';
+  body.innerHTML = '<p>이 날짜의 브리핑만 열리는 주소입니다.</p><input class="pwa-link" id="chatShareUrl" readonly aria-label="날짜별 브리핑 공유 주소" value="'+esc(url.href)+'"><div class="pwa-buttons"><button type="button" id="chatShareCopy">주소 복사</button>'+(navigator.share?'<button type="button" id="chatShareNative">카카오톡 등 공유</button>':'')+'</div>';
+  $('chatShareCopy').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(url.href); status.textContent = '주소를 복사했습니다.'; }
+    catch { const field = $('chatShareUrl'); field.focus(); field.select(); status.textContent = '선택된 주소를 직접 복사해 주세요.'; }
+  });
+  $('chatShareNative')?.addEventListener('click', async () => {
+    try { await navigator.share({title:'아현뚜방 브리핑 · '+post.date, url:url.href}); }
+    catch(error) { if (error.name !== 'AbortError') status.textContent = '주소 복사로 공유해 주세요.'; }
+  });
+  if (!dialog.open) dialog.showModal();
 }
 function detailTrendChart(z){return '<div class="trend-wrap">'+trendChart(z,false)+'</div>';}
 
@@ -202,12 +233,15 @@ const routes = {
 };
 function renderRoute() {
   const page = location.hash.slice(1);
-  const route = Object.hasOwn(routes, page) ? routes[page] : null;
+  const chatDay = /^chat\/(\d{4}-\d{2}-\d{2})$/.exec(page);
+  const route = chatDay ? ['아현뚜방 브리핑', () => chatDayDetail(chatDay[1])] : Object.hasOwn(routes, page) ? routes[page] : null;
+  document.title = chatDay ? '아현뚜방 브리핑 · '+chatDay[1]+' | 북아현3구역' : '북아현3구역 브리핑 | 재개발 시세·소식 대시보드';
   document.body.classList.toggle('view-home', !route);
   $('dashboard').hidden = Boolean(route);
   $('detail').hidden = !route;
-  $('detailChatLink').hidden = page !== 'chat';
-  $('detail').classList.toggle('chat-route', page === 'chat');
+  $('detailChatLink').hidden = page !== 'chat' && !chatDay;
+  $('detail').classList.toggle('chat-route', page === 'chat' || Boolean(chatDay));
+  document.body.classList.toggle('view-chat-day', Boolean(chatDay));
   if (route) {
     if (page === 'seoul') newsMode = '서울 정비사업';
     else if (page === 'news') newsMode = '전체';
@@ -215,6 +249,10 @@ function renderRoute() {
     $('detailTitle').textContent = route[0];
     $('detailContent').innerHTML = route[1]();
     if (route[2]) markSectionViewed(route[2]);
+    if (chatDay) {
+      const post = CHAT_POSTS.find(item => item.date === chatDay[1]);
+      if (post && !seenIds.chat.includes(post.id)) { seenIds.chat.push(post.id); saveSeen(); }
+    }
   } else {
     $('detailContent').replaceChildren();
     refreshNewIds();
@@ -223,6 +261,8 @@ function renderRoute() {
   window.scrollTo(0, 0);
 }
 document.addEventListener('click', event => {
+  const share = event.target.closest('[data-chat-share]');
+  if (share) { shareChatDay(share.dataset.chatShare); return; }
   const navigation = event.target.closest('[data-page]');
   if (navigation) {
     const page = navigation.dataset.page;
